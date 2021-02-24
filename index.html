@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title">
+<meta property="og:url" content="http://sincronos.github.io/index.html">
+<meta property="og:site_name">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title">
+  
+    <link rel="alternate" href="/atom.xml" title type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo"></a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://sincronos.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Audittar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/24/Audittar/" class="article-date">
+  <time datetime="2021-02-24T19:46:43.224Z" itemprop="datePublished">2021-02-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 align="center">Audittar: Tutorial de integração de serviço manual e automática</h3>
+
+<h2 id="O-que-preciso"><a href="#O-que-preciso" class="headerlink" title="O que preciso?"></a>O que preciso?</h2><ul>
+<li>Instalador de serviços (geralmente está no Mega na pasta Serviços/Instalador.msi);</li>
+<li>Dados de conexão do servidor do cliente;</li>
+<li>id e token do cliente a ser instalado ( representante parceiro irá disponibilizar esses dados).</li>
+</ul>
+<h2 id="Sobre"><a href="#Sobre" class="headerlink" title="Sobre:"></a>Sobre:</h2><p>A Audittar é uma empresa que revisa tributações de produtos e permite que empresas clientes utilizem os serviços dela para manter os próprios produtos em conformidade.</p>
+<p>A integração faz com que clientes que utilizam o sistema da Tetra possam usar esses serviços da Audittar de forma mais fácil, sendo totalmente integrado ao sistema.</p>
+<p>Existe a forma automática, que todo dia o integrador consulta os produtos e obtem as atualizações que a Audittar faz de acordo com o tempo. Porém existe a forma manual que o cliente pode fazer dentro do sistema no cadastro do produto e verificar na hora se o produto tem atualização de tributação e ocorre a atualização na hora daquele produto específico.</p>
+<h3 id="Configuracao-Servico-Automatico"><a href="#Configuracao-Servico-Automatico" class="headerlink" title="Configuração - Serviço Automático"></a>Configuração - Serviço Automático</h3><p>1 - No serviço automático, execute o instalador no servidor do cliente:</p>
+<p><img src="http://you img base url/https://i.imgur.com/MIroVqj.png?e=1614199729&token=your qiniu access key:WlIN5VTWVh6KjnWhasN9GYJ2FEI=" alt></p>
+<p>2 - Preencha os campos de acordo com os dados do cliente:</p>
+<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1614199729&token=your qiniu access key:MyeasIETtW4ngNS3Qy_7rvzOVX4=" alt></p>
+<p>3 - Marque a opção ‘Audittar’ informando que utilizará este serviço:</p>
+<p><img src="http://you img base url/https://i.imgur.com/al9bsAz.png?e=1614199729&token=your qiniu access key:s34wlhtaDyvr_32P45z5pBuNVwA=" alt></p>
+<p>4 - Finalize a instalação. Após isso vá no caminho da instalação:<br>    Geralmente: (C:\Program Files (x86)\Tetra Solucoes\ServicosTetra)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Abra o arquivo 'ConfigTetra'</span></span><br><span class="line"><span class="comment"># Nele tem vários campos, mas precisaremos colocar os dados em 3 campos:</span></span><br><span class="line"></span><br><span class="line"><span class="string">"IdClientAudittar"</span>: <span class="string">"371"</span>,</span><br><span class="line"><span class="string">"TokenAudittar"</span>: <span class="string">"8d549efd328d8acaf01ff923246ce612"</span>,</span><br><span class="line"><span class="string">"HoraInicioServicoAudittar"</span>: 10,</span><br><span class="line"></span><br><span class="line"><span class="comment"># O id e token será passado pela Audittar, o campo HoraInicioServicoAudittar</span></span><br><span class="line"><span class="comment"># é o horário que o serviço irá iniciar automaticamente.</span></span><br><span class="line"><span class="comment"># Se estiver configurado para 20 horas, ele vai executar entre 20 e 21 horas.</span></span><br><span class="line"><span class="comment"># obs.(Por padrão ele vem com 22).</span></span><br></pre></td></tr></table></figure>
+
+<p>O serviço todo dia irá pegar todos os produtos da base de dados local do cliente e enviando para a Audittar. Se caso já tiver sido revisado o produto ele retorna a tributação e atualiza a base, se não no próximo dia ele busca de novo até ser revisado.</p>
+<p>Após a revisão do produto, na tabela ESTOQUE do banco o serviço marca o campo FLAGTRIBUT com a letra ‘R’, se não revisar o campo fica vazio.</p>
+<h3 id="Configuracao-Manual"><a href="#Configuracao-Manual" class="headerlink" title="Configuração - Manual"></a>Configuração - Manual</h3><p>Para configurar manualmente, abra o sistema em configurações, aba Outros/Pág. 2, selecione Integração Fiscal a opção 4 e preencha os campos cód. Cliente, token e URL:</p>
+<p><img src="http://you img base url/https://i.imgur.com/husrgFy.png?e=1614199729&token=your qiniu access key:CFyjgi1qFNTzNdwIQN8soTFt2xA=" alt></p>
+<p>url: <a href="http://api.audittar.com.br/webservice/ConsultaJSON" target="_blank" rel="noopener">http://api.audittar.com.br/webservice/ConsultaJSON</a></p>
+<p>Após Salvar e reiniciar o sistema é só ir no cadastro do produto, selecionar algum produto e clicar no ícone de busca de atualização do serviço:</p>
+<p><img src="http://you img base url/https://i.imgur.com/wbEk2cU.png?e=1614199729&token=your qiniu access key:jziVju21pY99JfzBm13XqtRpD2E=" alt></p>
+<p>obs.(Se caso não atualizar a tributação é porque foi enviado e a Audittar ainda não revisou esse produto.)</p>
+<h2 id="Licenca"><a href="#Licenca" class="headerlink" title="Licença"></a>Licença</h2><p>Esse projeto é licenciado pela Tetra Soluções Empresariais.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2021/02/24/Audittar/" data-id="ckljup4yv0002hzi0zbmjgsax" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Scantech" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/19/Scantech/" class="article-date">
+  <time datetime="2021-02-19T14:35:39.000Z" itemprop="datePublished">2021-02-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/19/Scantech/">SCANTECH</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-Funcao"><a href="#1-Funcao" class="headerlink" title="1. Função"></a>1. Função</h3><p>Integração com a empresa Scantech que organiza promoções e a loja recebe reembolso(cashback) pelas vendas.</p>
+<p>Utilitários &gt; Configurações &gt; Filiais na aba ‘Adicionais’</p>
+<h3 id="2-Configuracao"><a href="#2-Configuracao" class="headerlink" title="2. Configuração"></a>2. Configuração</h3><ul>
+<li>Primeiramente o cliente deve ter o contrato firmado diretamente com o Scantech, onde ele vai receber os dados para possibilitar a integração;</li>
+<li>Pegue os dados do cliente na Scantech, você encontrá-lo no FAQ ou solicitando ao suporte, caso a etapa anterior já tenha sido feita;</li>
+<li>Instale o serviço e na tela de config preencha<br>  a. Na tela geral os dados de acesso ao banco de dados Server, Password e Database.<br>  b. Abra a aba ‘Scantech’ e preencha todos os campos <code>ID (5 dígitos)</code>, <code>Username</code> e <code>Password</code> que a Scantech passou do cliente.<br>  c. Preencha também o campo <code>Data</code> no formato <code>MÊS/DIA/ANO</code>, exemplo <code>02/26/2021</code>. Essa data define de quando o scantech começará a puxar as vendas, recomendo que coloque no máximo há 7 dias atrás. Ou seja, se hoje é dia 20 de fevereiro de 2021, coloque <code>02/13/2021</code>.<br>  d. No SG, acesse <code>Utilitários &gt; Configurações &gt; Filiais</code> na aba ‘Adicionais’ coloque o ID_Scantech (1 dígito) para cada Filial que vai fazer parte do serviço.</li>
+<li>Salve tudo e reinicie o serviço. Você pode acompanhar os passos do Serviço pelo LOG (no banco fica na tabela <code>SYS_LOGSERVICE</code>).</li>
+<li>Se alguma informação estiver faltando, o serviço geral continuará rodando, mas o Scantech vai ficar parado (isso será informado no LOG).</li>
+</ul>
+<h3 id="3-Etapas-do-servico"><a href="#3-Etapas-do-servico" class="headerlink" title="3. Etapas do serviço"></a>3. Etapas do serviço</h3><ul>
+<li>Para cada filial cadastrada o serviço vai rodar 5 rotinas, 1 vez logo ao iniciar e depois de 30 em 30 minutos.</li>
+<li>Rotina 1: ele consulta as promoções que estão no Scantech e aplica nos produtos;</li>
+<li>Rotina 2: recupera no banco de dados as vendas autorizadas relacionadas com essas promoções e envia para o Scantech;</li>
+<li>Rotina 3: recupera no banco de dados as vendas canceladas relacionadas com essas promoções e envia para o Scantech;</li>
+<li>Rotina 4: recupera os fechamentos separados por caixa e envia ao scantech</li>
+<li>Rotina 5: verifica se a Scantech solicitou algum reenvio de venda ou fechamento e envia</li>
+</ul>
+<ul>
+<li>No logs você pode encontrar esse formato “R2F1: Erro ao enviar venda”, o código <code>R2F1</code> siginifica <code>Rotina 2 Filial 1</code> ou <code>ER5F2</code> que significa <code>Erro Rotina 5 Filial 2</code>, etc.</li>
+<li>Avalie o log do inicio até aparecer “Fim das rotinas”, veja se há algum erro ou se alguma venda ou fechamento não foi enviado, se estiver OK, pode dar como concluido.</li>
+</ul>
+<h3 id="4-Atualizando-ou-trocando-o-Config"><a href="#4-Atualizando-ou-trocando-o-Config" class="headerlink" title="4. Atualizando ou trocando o Config"></a>4. Atualizando ou trocando o Config</h3><ul>
+<li>Para trocar informações basta abrir o config na pasta de instalação no .exe <code>TelaConfig</code>. Troque as informações, salve e reinicie o serviço.</li>
+<li>Você tambem pode trocar o arquivo <code>ConfigTetra.txt</code> e reiniciar, porém tome cuidado ao trocar por uma versão muito antiga e estar faltando alguns campos, isso pode gerar alguns conflitos.</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2021/02/19/Scantech/" data-id="ckljup4z3000ahzi0vsenpv4r" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Clubiz" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/03/Clubiz/" class="article-date">
+  <time datetime="2020-11-03T14:30:39.000Z" itemprop="datePublished">2020-11-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/03/Clubiz/">CLUBIZ</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ClubeBiz-integracao-com-os-produtos-da-Hendel"><a href="#ClubeBiz-integracao-com-os-produtos-da-Hendel" class="headerlink" title="ClubeBiz: integração com os produtos da Hendel"></a>ClubeBiz: integração com os produtos da Hendel</h1><p>
+Esta integração tem o propósito de manter atualizados os produtos e cadastrar pedidos recebidos pelas plataformas desenvolvidas pela empresa Hendel: o site em Magento e o aplicativo Clube Biz.
+</p>
+
+<h2 id="Instalacao"><a href="#Instalacao" class="headerlink" title="Instalação"></a>Instalação</h2><p>
+A instalação é realizada do mesmo modo como as outras. 
+Os campos <b>obrigatórios</b> são:
+<br>
+- Na área geral: Filial, DavOpPadrao, Database e Server
+<br>
+- Na aba 'ClubeBiz': UrlClubeBiz e AccessTokenClubeBiz.
+Os campos FilialPedido e FilialEstoque são opcionais, se não forem preenchidos será usado a filial cadastrada em Filial, na área geral.
+<i>FilialPedido</i> é onde os pedidos vindo da loja online será cadastrados, <i>FilialEstoque</i> é a filial que será considerada ao atualizar a quantidade do produto no estoque (se a opção <i>SomarEstoqueFilais</i> estiver marcada, essa filial é ignorada).
+</p>
+
+<h2 id="Rotina"><a href="#Rotina" class="headerlink" title="Rotina"></a>Rotina</h2><p>
+A rotina é composta por 4 etapas
+</p>
+<ol>
+<li><b>Atualização dos produtos recentemente alterados: </b>a função busca os produtos que foram alterados nos últimos 10 minutos. A função considera o campos <i>DATA</i> da tabela <i>ESTOQUE</i>. Essa rotina é chamada a cada 5 minutos. Se o produto estiver em promoção, isso também será informado</li>
+<li><b>Novos pedidos: </b>essa função verifica no sistema da Hendel se há algum novo pedido pendente de cadastro. O pedido que a função procura é um que esteja com o status <i>paga_ps (PAGO)</i> e que já não tenha sido cadastrado no banco de dados. O pedido é salvo na tabela <i>DAVPRE</i> com o CODFIL definido em <i>FilialPedido</i> (ou <i>Filial</i> caso aquela não tenha sido preenchida).Essa função é chamada a cada 5 minutos</li>
+<li><b>Status do pedido: </b>acompanha o status do pedido e informa a API para que o cliente saiba em que estado está o pedido que foi feito. A atualização é feita a cada 5 minutos.</li>
+<li><b>Cadastro e atualização geral: </b>aqui os produtos, independentes de quando foram alterados, são enviados para a integração. A função procura produtos que esteja ativos (A) e marcados para serem enviados para o site online (PRODWEB). Essa função é chamada a cada 2 horas. Se o produto estiver em promoção, isso também será informado</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2020/11/03/Clubiz/" data-id="ckljup4yy0004hzi0zg6rgs29" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-instabuy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/03/instabuy/" class="article-date">
+  <time datetime="2020-11-03T14:30:39.000Z" itemprop="datePublished">2020-11-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/03/instabuy/">INSTABUY</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-Funcao"><a href="#1-Funcao" class="headerlink" title="1. Função"></a>1. Função</h3><p>Integrar SG com a loja online do Instabuy</p>
+<h3 id="2-Onde-consigo-o-instalador"><a href="#2-Onde-consigo-o-instalador" class="headerlink" title="2. Onde consigo o instalador"></a>2. Onde consigo o instalador</h3><p>Instalador padrão dos InstaladorServico_v[versão].msi que fica na pasta Servicos no Mega.</p>
+<h3 id="3-Instalacao"><a href="#3-Instalacao" class="headerlink" title="3. Instalação"></a>3. Instalação</h3><p>Rode o instalador e preencha o campo do nome do banco de dados. Caso seja uma reinstalação e já exista uma config, o instalador usará as informações já presentes, trocando apenas o nome do banco.</p>
+
+<p>Os **dados obrigatórios** são:</p>
+<ul>
+<li>CNPJ (igual do contrato);</li>
+<li>Nome Fantasia; (campo livre);</li>
+<li>Banco de dados(local);</li>
+<li>Server(local);</li>
+<li>Filial;</li>
+<li>InstaBuyToken(recebido no contrato) e;</li>
+<li>Ativar Instabuy na tela de config.</li>
+</ul>
+
+<p>
+Dados opcionais
+</p>
+<ul>
+<li>Vendedor Padrão</li>
+<li>Plano de Venda Padrão</li>
+<li>Custo por filial: quando o preço do produto é diferente entre as filiais</li>
+<li>Cliente recebe endereço da entrega: sempre que o cliente fizer um pedido, seu endereço será atualizado com o endereço da entrega.</li>
+<li>SomarEstoqueFiliais (para as lojas que querem juntar estoque entre as filiais);</li>
+</ul>
+
+<p>Todos os campos podem ser alterados a qualquer momento, bastando abrir a tela de config, salvar e reiniciar o serviço no Gerenciador de Serviços do Windows</p>
+
+<p>Para <b>testar</b> o serviço você pode usar livremente a loja de testes da Tetra. Use os dados abaixo (dados da loja de teste da Tetra):</p>
+<ul>
+<li>CNPJ: `12.048.636/0001-92`</li>
+<li>Token: `VO095fPuDB_dp7JxMKzpIlQ7H_TQ31GP24uhfNvBPoY`</li>
+</ul>
+
+<h3 id="4-Funcionamento-Rotina"><a href="#4-Funcionamento-Rotina" class="headerlink" title="4. Funcionamento/Rotina"></a>4. Funcionamento/Rotina</h3><p>O serviço inicia logo após a instalação e é composto por 3 rotinas que rodam o dia todo. O contrato com o Instabuy é feito diretamente com o Instabuy (e portanto o pagamento) e no contrato ele vai receber o `Token`.</p>
+
+<p>No início a empresa do Instabuy cadastrará os primeiros produtos, então será pedido um .CSV com as colunas: 'plu' que é o código do produto, 'nome' e 'codbarras'. Para teste é possível cadastrar o produto manualmente no Admin da loja.</p>
+<ul>
+<li>Link do Admin da loja: `https://admin.instabuy.com.br/access/login`</li>
+<li>Link da loja: `https://tetrasolucoes.instabuy.com.br/`</li>
+<li>Credenciais Admin: Login: falecom@tetrasolucoes.com.br | Senha: SYSsup007</li>
+</ul>
+
+<p><b>ATUALIZAÇÃO E CADASTRO DE PRODUTO</b><br>A função principal da integração é manter atualizado o preço, quantidade de estoque e promoções do produto já cadastrados na plataforma. O serviço vai atualizar preços e quantidade de estoque (somente os produtos com <strong>situação ‘A’ e marcador para Web (prodweb)</strong>), se tiver promoção também será cadastrada caso esteja dentro do prazo de validade desta.<br>O instabuy só identifica promoções de desconto simples, outros tipos de <strong>promoção</strong> como compre 3 leve 4 ou algo o tipo não serão cadastradas.<br>As alterações de preço serão atualizadas a cada <strong>4 minutos,</strong> qualquer outro tipo de alteração será atualizada a cada <strong>1 hora</strong>.<br>O <strong>nome</strong> do produto não será atualizado pela API devido as regras do Instabuy.<br>No caso de produtos que não estejam cadastrados previamente na plataforma, o serviço vai enviar e ele será cadastrados como <strong>INATIVO</strong> e sem foto.<br>Se o produto foi desmarcado para loja ou inativado no sistema, ele será inativado no Instabuy.</p>
+<p><b>RECEBIMENTO DE PEDIDOS</b><br>Quando o cliente fizer um pedido, o administrador deve avaliar o pedido pelo aplicativo <strong>Coletor</strong> do Instabuy ou alterar o status para ‘<code>PRODUTOS SEPARADOS</code>‘ pelo Admin (que é o que o Coletor faz por baixo dos panos). Ao alterar o status, o serviço instalado no servidor vai identificá-lo e salvá-lo como pré venda. <code>Muito importante, o serviço só identifica pedidos que estiverem com o status PRODUTOS SEPARADOS</code>.<br>O serviço pesquisa o cliente pelo CPF, e caso não for encontrado, este será cadastrado na base.<br>O endereço de entrega, se for o caso, será colocado na observação do pedido e na tabela <strong>ENTREGA</strong>.<br>Depois que o pedido já foi cadastrado, o serviço vai enviar cada troca de status, até finalizar.</p>
+<p>Sobre o <strong>DAVPRE</strong>, o código segue o ULTREG de DAVPRE, CODOFF segue o ULTREG de DAV e toda vez que é cadastrado um DAVPRE ou CLIENTE, o ULTREG é atualizado.</p>
+<p><b>LOG</b><br>O serviço gera LOGS no banco de dados na tabela SYS_LOGSERVICE. Use para saber se o serviço correto foi ativado, se houve algum erro, a quantidade de produtos enviados, pedidos cadastrados, etc. Essa tabela é limpa de tempos em tempos.</p>
+<h6 id="Resumo-das-Rotinas"><a href="#Resumo-das-Rotinas" class="headerlink" title="Resumo das Rotinas"></a>Resumo das Rotinas</h6><ol>
+<li>Pega todos os produtos que estão ativos e marcado pra Web e envia para fazer a atualização. Atualiza preço e estoque.</li>
+<li>Verifica se há algum pedido com o status 'Produtos Separados' e salva no banco de dados DAVPRE. Também faz cadastro de Cliente caso não tem no SG.</li>
+<li>Verifica se algum pedido mudou de status e informa ao Instabuy.</li>
+</ol>
+
+<h3 id="5-Valor-para-o-cliente"><a href="#5-Valor-para-o-cliente" class="headerlink" title="5. Valor para o cliente"></a>5. Valor para o cliente</h3><p>O cliente que contrata o serviço terá um site e um aplicativo próprio da sua loja em sincronia com seu banco de dados.</p>
+<h3 id="6-Perguntas-frequentes"><a href="#6-Perguntas-frequentes" class="headerlink" title="6. Perguntas frequentes"></a>6. Perguntas frequentes</h3><ol>
+<li>O instabuy tem pagamento online? Não</li>
+<li>Como mudar a filial? Basta acessar a pasta onde o serviço foi instalado (Arquivos de Programas > TetraServiços) e abrir TelaConfig</li>
+<li>Mudei o nome do produto e não atualizou, é um erro? Não, a API não atualiza nome, são políticas do Instabuy, isso deverá ser feito manualmente.</li>
+<li>Qual vendedor vai na pré-venda? Vai o código definido em <i>VendedorPadrao.</i></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2020/11/03/instabuy/" data-id="ckljup4z8000fhzi04wq6uruv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-AlertaFiscal" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/08/AlertaFiscal/" class="article-date">
+  <time datetime="2020-08-08T20:19:02.000Z" itemprop="datePublished">2020-08-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/08/AlertaFiscal/">Serviço - Alerta Fiscal</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ALERTA-FISCAL"><a href="#ALERTA-FISCAL" class="headerlink" title="ALERTA FISCAL"></a>ALERTA FISCAL</h1><h2 id="Entendendo-o-Servico-Automatico"><a href="#Entendendo-o-Servico-Automatico" class="headerlink" title="Entendendo o Serviço Automático"></a>Entendendo o Serviço Automático</h2><ul>
+<li>O serviço terá apenas uma rotina, que será executada uma vez por dia a partir das 22 horas (importante que o servidor do cliente fique ligado para a atualização acontecer).</li>
+<li>Ele fará uma busca de todos os produtos que estão disponíveis para atualização, retornando uma lista de códigos. Caso não vier algum produto, é porque a Alerta Fiscal ainda não revisou o produto.</li>
+<li>A seguir o serviço buscará na api os dados de cada produto obtido e irá atualizar na base local havendo diferença.</li>
+</ul>
+<h2 id="Entendendo-o-processo-de-atualizacao-dos-produtos"><a href="#Entendendo-o-processo-de-atualizacao-dos-produtos" class="headerlink" title="Entendendo o processo de atualização dos produtos"></a>Entendendo o processo de atualização dos produtos</h2><ul>
+<li>A integração se inicia quando um parceiro do Alerta Fiscal pede os dados dos produtos do cliente. Nessa primeira etapa terá que ser emitido um relatório para envio ao parceiro que contém todos os produtos do cliente com suas tributações exigidas pelo mesmo.</li>
+<li>Para emitir esse relatório é só acessar o sistema do cliente, ir em Fiscal/Outros/Integração de Tributação Fiscal. irá abrir uma tela, é só clicar no botão ‘Gerar arquivo para análise’. Será gerado um arquivo a ser enviado ao parceiro. (Para ser gerado o arquivo deve seguir antes a configuração manual no sistema. Geralmente o parceiro acessa o cliente todo més e pega esse relatório do cliente, por isso é importante o parceiro saber fazer esse processo).</li>
+<li>Após o envio dos produtos, o parceiro irá disponibilizar um id e token do cliente para configuração do serviço, que aí de acordo com a atualização dos produtos o serviço irá pegar e atualizar a base local, ou também a possibilidade de buscar um produto manualmente após fazer a configuração.</li>
+</ul>
+<h2 id="Requisitos"><a href="#Requisitos" class="headerlink" title="Requisitos"></a>Requisitos</h2><p><strong>Requisitos para instalação:</strong></p>
+<ul>
+<li>Sistema operacional Windows 10 ou Windows Server 2012 ou superior;</li>
+<li>Sincronos SG atualizado a partir da versão 9.14.3;</li>
+<li>Arquivo de instalação ‘Instalação_xxx.msi’ que está no mega na pasta SERVIÇOS/Instalador_xxx.</li>
+</ul>
+<h3 id="Configuracao-Servico-Automatico"><a href="#Configuracao-Servico-Automatico" class="headerlink" title="Configuração - Serviço Automático"></a>Configuração - Serviço Automático</h3><hr>
+<ol>
+<li>Ao executar o executável irá iniciar o processo de instalação:</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1614199729&token=your qiniu access key:z6Y37CMmB0Y1TrSO4IjC6ogyZlc=" alt></p>
+<ol start="2">
+<li>Marcar TODOS e clicar em avançar;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1614199729&token=your qiniu access key:mfOTsJUnvnCNImTZxEWGVdChqFw=" alt></p>
+<ol start="3">
+<li>Informar dados solicitados: CNPJ do Cliente, Nome Fantasia, Nome da Base de dados e Nome da Máquina onde está instalado o SQL com essa Base;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1614199729&token=your qiniu access key:MyeasIETtW4ngNS3Qy_7rvzOVX4=" alt></p>
+<ol start="5">
+<li>Marcar o serviço Alerta Fiscal;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/IKB4lc6.png?e=1614199729&token=your qiniu access key:Xc-o6veBtP8bNypObZ86lA52miI=" alt></p>
+<ol start="6">
+<li>Clicar em Avançar;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1614199729&token=your qiniu access key:Ie-GLVNSJ8kJswlVQui29B8Ja-A=" alt></p>
+<ol start="7">
+<li>Caso acuse o erro da imagem a baixo, Instale o Netframework 4.7.2. Caso não dê erro, Seguir com o processo.</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1614199729&token=your qiniu access key:8SkjvYqmVhdRoQCLZ9dnq75qZUw=" alt></p>
+<ol start="8">
+<li>Clicar em Fechar;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1614199729&token=your qiniu access key:kvKrtpGNj_IvFu32aZ80ZrnvO2U=" alt></p>
+<ol start="9">
+<li>Após isso vá no caminho da instalação:<br>Geralmente: (C:\Program Files (x86)\Tetra Solucoes\ServicosTetra)</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Abra o arquivo 'ConfigTetra'</span></span><br><span class="line"><span class="comment"># Nele tem vários campos, mas precisaremos colocar os dados em 2 campos:</span></span><br><span class="line"><span class="comment"># 'IdAlertaFiscal' e 'TokenAlertaFiscal':</span></span><br><span class="line"></span><br><span class="line"><span class="string">"IdAlertaFiscal"</span>: <span class="string">"125"</span>,</span><br><span class="line"><span class="string">"TokenAlertaFiscal"</span>: <span class="string">"17e99704fd6947778fe4b2924991876h"</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment"># Depois de preencher os dados salve e feche o arquivo.</span></span><br></pre></td></tr></table></figure>
+
+<ol start="10">
+<li>Reinicie o serviço TETRA SERVIÇOS que está iniciado no Serviço do Windows:<ul>
+<li>Abrir o executar em CTRL+R e digitar Services.msc;</li>
+</ul>
+</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1614199729&token=your qiniu access key:Nkznc7Qdh0djdiP894Kg1sx6mmw=" alt></p>
+<ol start="11">
+<li>Se quiser conferir o log do serviço para verificar se ocorreu algum problema pode ver o relatório no sistema em Cadastros/Estoque/Serviços/Relatório de Log de Serviços;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1614199729&token=your qiniu access key:GE2Yrpx8W3itgxgC4KCKrO2lS8o=" alt></p>
+<ul>
+<li><p>Só pesquisar o perídodo e o serviço a buscar que irá aparecer o log do serviço. (Esses dados são gravados na tabela SYS_LOGSERVICE)</p>
+</li>
+<li><p>Obs. Caso aparecer algum erro contate o setor de desenvolvimento para verificar.</p>
+</li>
+</ul>
+<h3 id="Configuracao-Consulta-Manual"><a href="#Configuracao-Consulta-Manual" class="headerlink" title="Configuração - Consulta Manual"></a>Configuração - Consulta Manual</h3><ol>
+<li>Abrir o SG, ir em Utilitários - Configuração - Sistema - Outros, verificar se a opção de integração Fiscal - ComoTributar está marcada e preencher os campos Cód. Cliente, token e url do serviço:</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/zNRVl0o.png?e=1614199729&token=your qiniu access key:_8_HcaZBF0YwxQ4KIynIuduGYFE=" alt></p>
+<p>URL: <a href="http://soap.alertafiscalintranet.com.br/WSIntegracaoSoap.asmx" target="_blank" rel="noopener">http://soap.alertafiscalintranet.com.br/WSIntegracaoSoap.asmx</a></p>
+<p>Preencher Id e Token que está na “FAQ#: 410033 — Serviço Tetra - Acesso dos Clientes”.</p>
+<p><em>OBS.: Caso o cliente não estiver com os dados na FAQ solicitar ao mesmo tais informações que ele deverá adquirir com a AlertaFiscal e Atualizar a FAQ com os dados desse cliente de acordo com o padrão ja existente;</em></p>
+<p>Após isso é só reiniciar o sistema e fazer a pesquisa do produto pelo ícone no cadastro do produto.</p>
+<h2 id="Informacoes-para-o-Suporte"><a href="#Informacoes-para-o-Suporte" class="headerlink" title="Informações para o Suporte"></a>Informações para o Suporte</h2><ul>
+<li>Essa coluna foi inseridas na base de dados para o controle de integração;<ul>
+<li>FLAGTRIBUT:<ul>
+<li>‘R’ (Revisado) - Cadastro já atualizado pelo Integrador com a base;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Ultimas-Funcionalidades-Adicionadas"><a href="#Ultimas-Funcionalidades-Adicionadas" class="headerlink" title="Últimas Funcionalidades Adicionadas"></a>Últimas Funcionalidades Adicionadas</h2><ul>
+<li>Adicionado no log as alterações feitas no serviço (incluído na tabela logcad somente o que foi alterado do produto no serviço).</li>
+</ul>
+<p><strong>Tem algo que não estava no documento?</strong> Não deixe de nos avisar!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2020/08/08/AlertaFiscal/" data-id="ckljup4yt0001hzi0ljslh5aq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AlertaFiscal/">AlertaFiscal</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Como-tributar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/08/Como-tributar/" class="article-date">
+  <time datetime="2020-08-08T20:19:02.000Z" itemprop="datePublished">2020-08-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/08/Como-tributar/">Serviço - Como tributar</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Entendendo-o-Servico"><a href="#Entendendo-o-Servico" class="headerlink" title="Entendendo o Serviço"></a>Entendendo o Serviço</h2><ul>
+<li>Após o serviço ser instalado, funcionará a cada 30 minutos e são executadas 2 rotinas.</li>
+<li>A primeira rotina acessa a base de dados e verifica os novos produtos cadastrados e envia-os a api da ComoTributar.</li>
+<li>A segunda irá acessar a api e verificar se existem produtos que foram atualizados lá. Se existir, o serviço pega os dados dos produtos e atualiza na base local.</li>
+<li>Na base local o produto tem um campo chamado ‘flagtribut’, que se estiver nulo ainda não foi enviado à api, se estiver com ‘P’ foi enviado, porém está pendente de revisão e se estiver ‘R’ já foi enviado e revisado, estando com a tributação correta.</li>
+</ul>
+<h2 id="Requisitos"><a href="#Requisitos" class="headerlink" title="Requisitos"></a>Requisitos</h2><p><strong>Requisitos para instalação:</strong></p>
+<ul>
+<li>NetFrameWork 4.7.2: <a href="https://download.microsoft.com/download/6/E/4/6E48E8AB-DC00-419E-9704-06DD46E5F81D/NDP472-KB4054530-x86-x64-AllOS-ENU.exe" target="_blank" rel="noopener">https://download.microsoft.com/download/6/E/4/6E48E8AB-DC00-419E-9704-06DD46E5F81D/NDP472-KB4054530-x86-x64-AllOS-ENU.exe</a>;</li>
+<li>Sistema operacional Windows 10 ou Windows Server 2012 ou superior;</li>
+<li>Sincronos SG atualizado a partir da versão 9.14.3;</li>
+<li>Arquivo de instalação ‘Instalação_xxx.msi’ que está no mega na pasta SERVIÇOS/Instalador_xxx.</li>
+</ul>
+<h3 id="Configuracao-Servico-Automatico"><a href="#Configuracao-Servico-Automatico" class="headerlink" title="Configuração - Serviço Automático"></a>Configuração - Serviço Automático</h3><hr>
+<ol>
+<li>Ao executar o executável irá iniciar o processo de instalação:</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1614199729&token=your qiniu access key:z6Y37CMmB0Y1TrSO4IjC6ogyZlc=" alt></p>
+<ol start="2">
+<li>Marcar TODOS e clicar em avançar;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1614199729&token=your qiniu access key:mfOTsJUnvnCNImTZxEWGVdChqFw=" alt></p>
+<ol start="3">
+<li>Informar dados solicitados: CNPJ do Cliente, Nome Fantasia, Nome da Base de dados e Nome da Máquina onde está instalado o SQL com essa Base;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1614199729&token=your qiniu access key:MyeasIETtW4ngNS3Qy_7rvzOVX4=" alt></p>
+<ol start="5">
+<li>Marcar o serviço;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/dqUSzWb.png?e=1614199729&token=your qiniu access key:Vc3dUAskZ_cq5nG1MF78faB3zgc=" alt></p>
+<ol start="6">
+<li>Clicar em Avançar;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1614199729&token=your qiniu access key:Ie-GLVNSJ8kJswlVQui29B8Ja-A=" alt></p>
+<ol start="7">
+<li>Caso acuse o erro da imagem a baixo, Instale o Netframework 4.7.2. Caso não dê erro, Seguir com o processo.</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1614199729&token=your qiniu access key:8SkjvYqmVhdRoQCLZ9dnq75qZUw=" alt></p>
+<ol start="8">
+<li>Clicar em Fechar;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1614199729&token=your qiniu access key:kvKrtpGNj_IvFu32aZ80ZrnvO2U=" alt></p>
+<ol start="9">
+<li>Após isso vá no caminho da instalação:<br>Geralmente: (C:\Program Files (x86)\Tetra Solucoes\ServicosTetra)</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Abra o arquivo 'ConfigTetra'</span></span><br><span class="line"><span class="comment"># Nele tem vários campos, mas precisaremos colocar os dados em 2 campos:</span></span><br><span class="line"><span class="comment"># 'Username' e no 'Password':</span></span><br><span class="line"></span><br><span class="line"><span class="string">"AuthEnvio"</span>: &#123;</span><br><span class="line">    <span class="string">"Client_id"</span>: <span class="string">"sistema_tetra"</span>,</span><br><span class="line">    <span class="string">"Client_secret"</span>: <span class="string">"sistema_tetra"</span>,</span><br><span class="line">    <span class="string">"Username"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="string">"Password"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="string">"Grant_type"</span>: <span class="string">"password"</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment"># Preencher Login e Senha que está na</span></span><br><span class="line"><span class="comment"># "FAQ#: 410027 — Login e Senha dos #Clientes Como Tributar"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># *OBS.: Caso o cliente não estiver com os dados na FAQ solicitar</span></span><br><span class="line"><span class="comment"># ao mesmo tais informações que ele deverá adquirir com a Como Tributar</span></span><br><span class="line"><span class="comment"># e Atualizar a FAQ com os dados desse cliente de acordo com o padrão</span></span><br><span class="line"><span class="comment"># ja existente;*</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Depois de preencher os dados salve e feche o arquivo.</span></span><br></pre></td></tr></table></figure>
+
+<ol start="10">
+<li>Reinicie o serviço TETRA SERVIÇOS que está iniciado no Serviço do Windows:<ul>
+<li>Abrir o executar em CTRL+R e digitar Services.msc;</li>
+</ul>
+</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1614199729&token=your qiniu access key:Nkznc7Qdh0djdiP894Kg1sx6mmw=" alt></p>
+<ol start="11">
+<li>Se quiser conferir o log do serviço para verificar se ocorreu algum problema pode ver o relatório no sistema em Cadastros/Estoque/Serviços/Relatório de Log de Serviços;</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1614199729&token=your qiniu access key:GE2Yrpx8W3itgxgC4KCKrO2lS8o=" alt></p>
+<ul>
+<li><p>Só pesquisar o perídodo e o serviço a buscar que irá aparecer o log do serviço. (Esses dados são gravados na tabela SYS_LOGSERVICE)</p>
+</li>
+<li><p>Obs. Caso aparecer algum erro contate o setor de desenvolvimento para verificar.</p>
+</li>
+</ul>
+<h3 id="Configuracao-Consulta-Manual"><a href="#Configuracao-Consulta-Manual" class="headerlink" title="Configuração - Consulta Manual"></a>Configuração - Consulta Manual</h3><ol>
+<li>Abrir o SG, ir em Utilitários - Configuração - Sistema - Outros, verificar se a opção de integração 3 - ComoTributar está marcada e preencher os campos usuário, senha e url do serviço:</li>
+</ol>
+<p><img src="http://you img base url/https://i.imgur.com/RHdJ6g9.png?e=1614199729&token=your qiniu access key:swhMxaCCGSVOSHOXVcMLK8MXNAs=" alt></p>
+<p>URL: <a href="https://comotributar.redwind.com.br/api/consulta/tributacao/" target="_blank" rel="noopener">https://comotributar.redwind.com.br/api/consulta/tributacao/</a></p>
+<p>Preencher Login e Senha que está na “FAQ#: 410027 — Login e Senha dos Clientes Como Tributar”.</p>
+<p><em>OBS.: Caso o cliente não estiver com os dados na FAQ solicitar ao mesmo tais informações que ele deverá adquirir com a Como Tributar e Atualizar a FAQ com os dados desse cliente de acordo com o padrão ja existente;</em></p>
+<p>Após isso é só reiniciar o sistema e fazer a pesquisa do produto pelo ícone no cadastro do produto.</p>
+<h2 id="Informacoes-para-o-Suporte"><a href="#Informacoes-para-o-Suporte" class="headerlink" title="Informações para o Suporte"></a>Informações para o Suporte</h2><ul>
+<li>Essas 4 colunas foram inseridas na base de dados para o controle de integração;<ul>
+<li>FLAGTRIBUT:<ul>
+<li>‘R’ (Revisado) - Cadastro ja atualizado pelo Integrador com a base Como Tributar;</li>
+<li>‘P’ (Pendente) - Cadastro pendente atualização manual por parte da Como Tributar.</li>
+</ul>
+</li>
+<li>DTTRIBUT:<ul>
+<li>Data da ultima atualização de status.</li>
+</ul>
+</li>
+<li>CODIGOTRIBUT:<ul>
+<li>Código que foi enviado para a Como Tributar.</li>
+</ul>
+</li>
+<li>FLAGINTERNOTRIBUT:<ul>
+<li>0 - (EAN Valido) Código do CODIGOTRIBUT enviado (enviado codigo de barras);</li>
+<li>1 - (EAN invalido) Código do CODIGOTRIBUT enviado (código interno enviado por falta de codigo de barras válido).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://you img base url/https://i.imgur.com/bC5pSXl.png?e=1614199729&token=your qiniu access key:yKcWf-G7oFFK_Thk8PMvx1uY6Hw=" alt="11"></p>
+<h2 id="Ultimas-Funcionalidades-Adicionadas"><a href="#Ultimas-Funcionalidades-Adicionadas" class="headerlink" title="Últimas Funcionalidades Adicionadas"></a>Últimas Funcionalidades Adicionadas</h2><ul>
+<li>Caso o cliente não queira atualizar algum produto, tem a função de ignorar atualização de produtos. Só ir no cadastro do produto e marcar essa opção na página Adicionais:</li>
+</ul>
+<p><img src="http://you img base url/https://i.imgur.com/qqquP8n.png?e=1614199729&token=your qiniu access key:orBHgAk5aBbeJYFls5S_CKQUYmg=" alt></p>
+<ul>
+<li><p>Adicionado no log as alterações feitas no serviço (incluído na tabela logcad somente o que foi alterado do produto no serviço).</p>
+</li>
+<li><p>Atualizar novamente produtos editados pelo cliente. (Se o produto não estiver com a flag de revisão marcada, se o produto já for revisado pelo serviço e se o cliente editar após revisão, a flag é alterada para ‘M’ e o serviço atualiza esse produto novamente.)</p>
+</li>
+</ul>
+<p><strong>Tem algo que não estava no documento?</strong> Não deixe de nos avisar!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2020/08/08/Como-tributar/" data-id="ckljup4z20009hzi0r81iw74r" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tetra-ComoTributar-ServicoTetra/">Tetra;ComoTributar;ServicoTetra</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Comanda" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/30/Comanda/" class="article-date">
+  <time datetime="2020-04-30T17:42:00.000Z" itemprop="datePublished">2020-04-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/30/Comanda/">Comanda eletrônica - instalação e uso</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="INSTALACAO"><a href="#INSTALACAO" class="headerlink" title="INSTALAÇÃO"></a>INSTALAÇÃO</h1><h2 id="1-API-Servidor"><a href="#1-API-Servidor" class="headerlink" title="1. API/Servidor"></a>1. API/Servidor</h2><ul>
+<li><strong>Baixar e instalar a Docker</strong><ul>
+<li><a href="https://docs.docker.com/install/" target="_blank" rel="noopener">https://docs.docker.com/install/</a></li>
+</ul>
+</li>
+<li><strong>Abrir o Power Shell e colocar o seguinte comando:</strong><ul>
+<li><code>docker run --name apitetra -e BD_NAME=&#39;nome-do-banco&#39; -e BD_PASS=&#39;ACESSO&#39; -e BD_HOST=&#39;127.0.0.1&#39; -e BD_USER=&#39;sa&#39; -e BD_FILIAL=&#39;1&#39; -p 8080:8080 --restart=always -d sandersoncorrea/tetra-foods-api</code></li>
+<li>Esse comando baixa e instala a API que vai acessar o banco de dados na máquina.</li>
+<li>Preencha os campos com as informações do banco que deseja usar. (Ex.: <code>BD_NAME=&#39;PADARIA&#39;</code>, <code>BD_PASS=&#39;ACESSO&#39;</code>, etc).</li>
+<li>Os campos de devem estar entre aspas simples.</li>
+<li>A api será instalada na porta que você definir. Por exemplo, se colocar <code>9090:8080</code> a API será acessada pela porta <code>9090</code>, mas o padrão é repetir o segundo número ficando <code>8080:8080</code> como na linha de comando acima. O número antes dos dois ponto (:) pode ser alterada, mas JAMAIS altera o numero depois dos dois pontos, deverá ser sempre <code>8080</code>.</li>
+<li>O nome fica a escolha do agente que vai instalar, mas para manter o padrão, coloque <code>apitetra</code>. Caso vá instalar dois ou mais, coloque sufixos faceis de ser identificados.</li>
+<li>A tag <code>--restart=always</code> é para que o servidor inicie junto com o Windows sempre.</li>
+</ul>
+</li>
+<li><strong>Após o término das instalação, verifique se está rodando com</strong><ul>
+<li>docker ps (no power shell)</li>
+<li>Vai aparecer uma lista das dockers que estão execução. Verifique a coluna <code>status</code>.</li>
+<li>Para testar, abra um navegador e entre em <code>localhost:8080</code> (com a porta que foi configurada), vai aparecer as configurações que o usuário escolheu na instalação indicando que a instalação foi bem sucedida.</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-Mobile"><a href="#2-Mobile" class="headerlink" title="2. Mobile"></a>2. Mobile</h2><ul>
+<li>Baixe o aplicativo em <code>https://bit.ly/app-tetra-comanda</code> e instale em um aparelho Android. As atualizações serão sempre mantidas nesse link.</li>
+<li>Abra o aplicativo e vá em configurações (ícone no lado superior direito da tela de Login).</li>
+<li>Preencha o campo com <code>HOST:PORTA</code>. O host é o IP da máquina na rede e a porta é a escolhida durante a instalação. Ex.: <code>10.0.0.140:8080</code>.</li>
+<li>Para testar se este é realmente o IP correto, abra-o no seu navegador do celular, se abrir e mostrar as informações que foram configuradas está correta, se demorar ou não abrir pode ser que esteja errado.</li>
+<li>Salve e o aplicativo está pronto para ser usado.</li>
+<li>Verifique se seu banco está atualizado pois alguns campos foram adicionados especificamente para esta aplicação. Foi alterada somente a tabela <code>USUARIO</code> com os campos novos <code>SENHA_COMANDAELETRONICA (varchar(30), null)</code> ; <code>USERNAME (varchar(30), null)</code> ; <code>COMANDAELETRONICA (char(1), null)</code>.</li>
+</ul>
+<h2 id="3-Usando-a-aplicacao"><a href="#3-Usando-a-aplicacao" class="headerlink" title="3. Usando a aplicação"></a>3. Usando a aplicação</h2><ul>
+<li>Faça o login com as credenciais cadastradas no SG nos campos novos da tabela <code>USUARIO</code>. O usuário só conseguirá acesso se colocar o username e senha corretos e se estiver habilitado a ter acesso <code>(COMANDAELETRONICA == 1)</code></li>
+<li>O aplicativo é para auxiliar nos pedidos de pré-venda</li>
+<li>Todos os pedidos serão salvos na tabela DAVPRE</li>
+<li>A entrada são de dois modos, ou inicia uma comanda/pré venda ou abre uma que já exista.</li>
+<li>Se for abrir uma nova o número vai iniciar com 0 e na primeira vez que salvar o aplicativo vai voltar a tela inicial já com o numero novo.</li>
+<li>Se abrir uma comanda já existente, vai adicionar novos produtos.</li>
+<li>A tela de produtos disponíveis somente mostrarão os produtos com <code>situação A</code> e <code>marcados para WEB (prodweb = 1)</code></li>
+</ul>
+<h2 id="4-O-que-muda-no-SG"><a href="#4-O-que-muda-no-SG" class="headerlink" title="4. O que muda no SG"></a>4. O que muda no SG</h2><ul>
+<li>A base de dados conta com 3 campos novos na tabela USUARIO, são eles - <code>SENHA_COMANDAELETRONICA (varchar(30), null)</code> ; <code>USERNAME (varchar(30), null)</code> ; <code>COMANDAELETRONICA (char(1), null)</code>;</li>
+<li>Esses campos devem ser preenchidos dentro do SG e será usado para autenticação no Mobile e na API</li>
+<li>O APP também usa as tabela DavPre, DavPreItem, DavPreItemExcecao, Grupo, Subgrupo, SubgrupoExececao, UltReg.</li>
+</ul>
+<h2 id="5-Escalabilidade"><a href="#5-Escalabilidade" class="headerlink" title="5. Escalabilidade"></a>5. Escalabilidade</h2><ul>
+<li>A API foi pensando em um modo que seja facilmente escalável. O uso da Docker facilita pois é possível montar quantos servidores quiser, desde que a máquina aguente, com variados bancos e variadas filiais.</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2020/04/30/Comanda/" data-id="ckljup4yz0005hzi0iphtq0rg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Comanda/">Comanda</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-conciliador-cartao" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/02/03/conciliador-cartao/" class="article-date">
+  <time datetime="2020-02-03T15:18:47.000Z" itemprop="datePublished">2020-02-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/02/03/conciliador-cartao/">CONCILIADOR de cartão</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Funcao-conciliar-administrar-vendas-de-cartao"><a href="#Funcao-conciliar-administrar-vendas-de-cartao" class="headerlink" title="Função: conciliar/administrar vendas de cartão"></a>Função: conciliar/administrar vendas de cartão</h3><h3 id="Onde-instalar-instalador-padrao-dos-ServicoTetra-msi"><a href="#Onde-instalar-instalador-padrao-dos-ServicoTetra-msi" class="headerlink" title="Onde instalar: instalador padrão dos ServiçoTetra.msi"></a>Onde instalar: instalador padrão dos ServiçoTetra.msi</h3><h3 id="Instalacao"><a href="#Instalacao" class="headerlink" title="Instalação"></a>Instalação</h3><p>Se instala como os outros serviços, se atentando aos<br>dados obrigatórios que são: CNPJ, Nome Fantasia, Banco de dados(local), Server(local), Filial, LoginConcialidor, SenhaConciliador e marcar ‘true’ em ‘Conciliador’. Cnpj, nome, bd e server e Conciliador estão na tela de instalação. Filial, login e senha é necessário abrir o config para preencher.</p>
+<h3 id="Funcionamento"><a href="#Funcionamento" class="headerlink" title="Funcionamento"></a>Funcionamento</h3><p>O conciliador é um serviço que o cliente contrata de forma direta com o Conciliador. A empresa contém todos os registros de compras feitas em cartão e a função do serviço é enviar as informações de vendas que temos no SG para fazer a comparação e saber se essas vendas foram pagas pela operadora de cartão de forma corretas (valor e data).</p>
+<p>Se estiverem corretas as vendas, o serviço vai gerar o recebido e quitar as vendas que devam ser quitadas. Se estiver faltando algum valor, no LOG estará informando o valor esperado e o valor que na realidade foi recebido.</p>
+<h6 id="Rotinas"><a href="#Rotinas" class="headerlink" title="Rotinas"></a>Rotinas</h6><ul>
+<li>A rotina é realizada na madrugada para evitar congestionamento</li>
+<li>São duas rotinas</li>
+</ul>
+<ol>
+<li>O serviço pega todas as vendas no SG do ultimos 4 dias e as envia para o conciliador. Nos casos de teste não há problema se enviar vendas repetidas, o conciliador sabe lidar com isso.</li>
+<li>O serviço pega as vendas no concilia que venceria no ultimos 4 dias e verifica se foi recebido de forma correta, se sim, quita.</li>
+</ol>
+<h3 id="Informacoes"><a href="#Informacoes" class="headerlink" title="Informações"></a>Informações</h3><ul>
+<li><p>Para saber se as quitações estão corretas poderá ser visto os valores no LOG e comparar com outros relatórios do SG. Mas atenção, como a rotina roda todos os dias nos últimos 4 dias, o mesmo dia será verificado por 4 vezes, então valores do mesmo dia de vencimento pode ser identificado em dias diferentes, então o total é a soma desses dias. Exemplo</p>
+<blockquote>
+<p>Hoje rodei o serviço, dia 5, então serão verificados os dias 2, 3, 4 e 5. Amanhã serão os dias 3, 4, 5, e 6; depois 4, 5, 6 e 7; depois 5, 6, 7 e 8. Note que o dia 5 apareceu 4 vezes e depois não vai aparecer mais. Sendo assim, pode acontecer que na primeira a maior parte das vendas sejam identificadas, mas no dia seguinte, mais algumas vendas e no outro mais algumas. Basta somar os dias para saber qual o valor das vendas foram quitadas pelo conciliador.</p>
+</blockquote>
+</li>
+<li><p>Também é possível comparar as vendas com o relatório que o site do Concilia gera</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2020/02/03/conciliador-cartao/" data-id="ckljup4z5000bhzi02isq96jk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Como-criar-graficos-e-alertas-no-Tetra-Sonar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/28/Como-criar-graficos-e-alertas-no-Tetra-Sonar/" class="article-date">
+  <time datetime="2019-08-28T13:35:37.000Z" itemprop="datePublished">2019-08-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/28/Como-criar-graficos-e-alertas-no-Tetra-Sonar/">Como criar gráficos e alertas no Tetra Sonar</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Tetra-Sonar-Formato-de-consultas-e-tipos-de-graficos"><a href="#Tetra-Sonar-Formato-de-consultas-e-tipos-de-graficos" class="headerlink" title="Tetra Sonar - Formato de consultas e tipos de gráficos"></a>Tetra Sonar - Formato de consultas e tipos de gráficos</h1><p>Para abastecer os dados através de uma consulta SQL no <strong>Tetra Sonar</strong> o suporte deverá tomar alguns cuidados ao fazer a consulta e definir qual o gráfico sera mostrado.</p>
+<p>Basicamente existem 2 tipos de formato de consulta para abastecer os gráficos.</p>
+<h2 id="Formato-com-2-parametros"><a href="#Formato-com-2-parametros" class="headerlink" title="Formato com 2 parametros"></a>Formato com 2 parametros</h2><h3 id="Para-os-graficos"><a href="#Para-os-graficos" class="headerlink" title="Para os gráficos:"></a>Para os gráficos:</h3><ul>
+<li>pizza</li>
+<li>rosca</li>
+<li>polar</li>
+<li>radar</li>
+<li>lista</li>
+</ul>
+<p>Todas a consultas devem gerar um resultado com duas colunas nomeadas como:</p>
+<ol>
+<li><strong>label</strong> - aonde estará os rótulos dos dados.</li>
+<li><strong>value</strong> - onde está os valores de cada rótulo.</li>
+</ol>
+<h3 id="Exemplo"><a href="#Exemplo" class="headerlink" title="Exemplo:"></a>Exemplo:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP (<span class="number">4</span>) <span class="keyword">MAX</span>(sub.NOME) <span class="keyword">AS</span> label,</span><br><span class="line"><span class="keyword">SUM</span>(rz.QUANT * rz.UNITARIO * - <span class="number">1</span>) <span class="keyword">AS</span> <span class="keyword">value</span></span><br><span class="line"><span class="keyword">FROM</span> dbo.RAZALOJA <span class="keyword">AS</span> rz <span class="keyword">INNER</span> <span class="keyword">JOIN</span></span><br><span class="line">dbo.ESTOQUE <span class="keyword">AS</span> e <span class="keyword">ON</span> rz.CODIGO = e.CODIGO <span class="keyword">AND</span> rz.MOVTO = <span class="string">'VE'</span></span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> dbo.SUBGRUPO <span class="keyword">AS</span> sub <span class="keyword">ON</span> e.SUBGRUPO = sub.CODIGO</span><br><span class="line"><span class="keyword">WHERE</span> (rz.DATA <span class="keyword">BETWEEN</span> @InicioSemana <span class="keyword">AND</span> @FinalSemana)</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> sub.CODIGO</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">SUM</span>(rz.QUANT * rz.UNITARIO * - <span class="number">1</span>) <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Graficos"><a href="#Graficos" class="headerlink" title="Gráficos"></a>Gráficos</h2><p><strong>Lista</strong></p>
+<p>Esse formato é no formato de tabela normal. Uma tabela com duas colunas. Onde o o <em>label</em> é o rótulo da linha e o <em>value</em> é o valor capturado.</p>
+<p><img src="http://you img base url/https://i.imgur.com/2R2bxMf.png?e=1614199729&token=your qiniu access key:pnfqeMs9KolGAVrnJvpazp3O1uA=" alt></p>
+<p><strong>Rosca</strong><br><img src="http://you img base url/https://i.imgur.com/ENeCM2M.png?e=1614199729&token=your qiniu access key:mA9ogMl7_kVMbKrcxF7vm2Ic2Qk=" alt></p>
+<hr>
+<p><strong>Pizza</strong><br><img src="http://you img base url/https://i.imgur.com/nquRKBS.png?e=1614199729&token=your qiniu access key:7_u-yW8X1RhaYsIc-NzXtLu7l8E=" alt></p>
+<hr>
+<p><strong>Polar</strong><br><img src="http://you img base url/https://i.imgur.com/22LPv5k.png?e=1614199729&token=your qiniu access key:AQvTT0ckTwDbGUEtaRiZxTg0dUQ=" alt></p>
+<hr>
+<p><strong>Radar</strong><br><img src="http://you img base url/https://i.imgur.com/8q1LMJX.png?e=1614199729&token=your qiniu access key:cf2SbZBNFuEt-aQgUYgefRNN4TY=" alt></p>
+<hr>
+<h2 id="Formato-com-3-parametros"><a href="#Formato-com-3-parametros" class="headerlink" title="Formato com 3 parametros"></a>Formato com 3 parametros</h2><h3 id="Para-os-graficos-1"><a href="#Para-os-graficos-1" class="headerlink" title="Para os gráficos:"></a>Para os gráficos:</h3><ul>
+<li>barra</li>
+<li>linha</li>
+<li>barra horizontal</li>
+<li>barra linha</li>
+</ul>
+<p>Todas a consultas devem gerar um resultado com duas colunas nomeadas como:</p>
+<ol>
+<li><strong>label</strong> - aonde estará os rótulos dos dados. <em>Ex: [Jan, Fev, Mar]</em></li>
+<li><strong>bar</strong> - sessao do dado apresentado. Ex: <em>[Compra, Venda, Devolucoes]</em></li>
+<li><strong>value</strong> - onde está os valores de cada rótulo.</li>
+</ol>
+<h3 id="Exemplo-1"><a href="#Exemplo-1" class="headerlink" title="Exemplo:"></a>Exemplo:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(POSICAO) + <span class="string">'-Pagar'</span> <span class="keyword">AS</span> label, <span class="string">'Projeção'</span> <span class="keyword">AS</span> bar, <span class="keyword">SUM</span>(VALOR) <span class="keyword">AS</span> <span class="keyword">value</span></span><br><span class="line"><span class="keyword">FROM</span> dbo.PAGAR</span><br><span class="line"><span class="keyword">WHERE</span> codfil = @codfil <span class="keyword">and</span>  (POSICAO = <span class="string">'AB'</span>)</span><br><span class="line"><span class="keyword">AND</span></span><br><span class="line">(VENCTO <span class="keyword">BETWEEN</span> <span class="keyword">DATEADD</span>(<span class="keyword">MONTH</span>, <span class="number">1</span>, <span class="keyword">DATEADD</span>(<span class="keyword">month</span>, <span class="keyword">DATEDIFF</span>(<span class="keyword">month</span>, <span class="number">0</span>, <span class="keyword">GETDATE</span>()), <span class="number">0</span>))</span><br><span class="line"><span class="keyword">AND</span></span><br><span class="line"><span class="keyword">DATEADD</span>(s, - <span class="number">1</span>, <span class="keyword">DATEADD</span>(mm, <span class="keyword">DATEDIFF</span>(m, <span class="number">0</span>, <span class="keyword">GETDATE</span>()) + <span class="number">2</span>, <span class="number">0</span>)))</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> POSICAO</span><br></pre></td></tr></table></figure>
+
+<h2 id="Graficos-1"><a href="#Graficos-1" class="headerlink" title="Gráficos"></a>Gráficos</h2><p><strong>Barra</strong><br><img src="http://you img base url/https://i.imgur.com/RO7T4Ox.png?e=1614199729&token=your qiniu access key:8hU7sr6EkEKdGfVehQKZyejY6gw=" alt></p>
+<hr>
+<p><strong>Linha</strong><br><img src="http://you img base url/https://i.imgur.com/O5KcbJG.png?e=1614199729&token=your qiniu access key:ky033T1wwl0Ci6FsrARsh9Xwf6o=" alt></p>
+<hr>
+<p><strong>Barra Horizontal</strong><br><img src="http://you img base url/https://i.imgur.com/UwNcgBn.png?e=1614199729&token=your qiniu access key:N_fLHDzuIjKwiIQF0CvR4ZT7qhQ=" alt></p>
+<hr>
+<p><strong>Barra Linha</strong><br><img src="http://you img base url/https://i.imgur.com/Ed0BeEo.png?e=1614199729&token=your qiniu access key:j7ysC16oe0Jjf2qk3F6xXuSsR_s=" alt></p>
+<hr>
+<h2 id="Formato-para-criar-ALARMES"><a href="#Formato-para-criar-ALARMES" class="headerlink" title="Formato para criar ALARMES"></a>Formato para criar ALARMES</h2><p>No caso de alarmes o SQL é um pouco diferente e deve se preocupar com alguns detalhes:</p>
+<ol>
+<li>Nao existem rótulos na consulta, ou seja, pode ser gerado quantas colunas forem necessárias. Deve se preocupar em colocar somente colunas que sejam relevantes pois será mostrado em dispositivos móveis aonde o tamanho de tela é reduzido;<br><strong>Portanto evitem usar no SQL o * para definir as colunas a serem consultadas na consulta</strong></li>
+<li>O tempo definido para executar o alarme deve sem bem pensado. O intervalo deve SEMPRE contemplar um período suficiente para o usuário receber o alerta e tratar o problema antes do próximo monitoramento. Por exemplo: Um alarme de produtos com preco de venda com custo zero. Ao coletar os dados nao conformes ele somente deve ser executado dias após, para dar tempo de delegar a tarefa e ela ser corrigida. Se isso nao acontecer o alarme continuará executando gerando informacoes recorrentes denecessáriamente.</li>
+</ol>
+<h5 id="Exemplo-2"><a href="#Exemplo-2" class="headerlink" title="Exemplo:"></a>Exemplo:</h5><p><strong>Alarme</strong> - Monitar todos os produtos que tenham preco de venda e custo 0 no cadastro de produtos.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> codigo, nome, custo, venda, SITUACAO, cadastro</span><br><span class="line"><span class="keyword">from</span> estoque</span><br><span class="line"><span class="keyword">where</span> custo = <span class="number">0</span> <span class="keyword">and</span> situacao = <span class="string">'A'</span> <span class="keyword">and</span> venda &gt; <span class="number">0.05</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2019/08/28/Como-criar-graficos-e-alertas-no-Tetra-Sonar/" data-id="ckljup4z10006hzi0zvjdqe8d" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TetraSonar/">TetraSonar</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Tetra-Sonar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/26/Tetra-Sonar/" class="article-date">
+  <time datetime="2019-07-26T12:05:29.000Z" itemprop="datePublished">2019-07-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/26/Tetra-Sonar/">Tetra Sonar</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Tetra-Sonar"><a href="#Tetra-Sonar" class="headerlink" title="Tetra Sonar"></a>Tetra Sonar</h1><p>versão - 1.0 em homologação</p>
+<h2 id="Proposito"><a href="#Proposito" class="headerlink" title="Propósito"></a>Propósito</h2><p>Disponibilizar ao gestor informações que o auxiliem a acompanhar os processos e resultados da sua empresa, através de :</p>
+<ul>
+<li>Gestão de indicadores - No formato de dashboard com 10 tipos de gráficos.</li>
+<li>Manitoramento do sistema - O sistema será periódicamente monitorado através de alarmes configurados para notificar caso ocorra o evento.</li>
+</ul>
+<h2 id="Estrutura"><a href="#Estrutura" class="headerlink" title="Estrutura"></a>Estrutura</h2><p>O Tetra Sonar é composto de 4 projetos que funcionam sincronizados e um banco de dados para armazenar essas informações.</p>
+<ol>
+<li>Sonar Extrator<br><em>Aplicativo desktop que deve ser instalado no servidor do cliente e servirá para configuração das visões de indicadores e alarmes para extrair os dados do sistema.</em></li>
+<li>Sonar API - <em>Sistema de retaguarda na nuvem que tem a responsabilidade de receber esses dados e disponibilizar ao site da aplicação web e o app mobile</em></li>
+<li>Sonar Web - <em>Site com a aplicação web</em></li>
+<li>Sonar Mobile - <em>App para smartphone</em></li>
+<li>Bando de Dados - <em>Banco de dados MongoDB na nuvem</em></li>
+</ol>
+<h2 id="Ambiente-de-Homologacao"><a href="#Ambiente-de-Homologacao" class="headerlink" title="Ambiente de Homologação"></a>Ambiente de Homologação</h2><p>O sistema para fins de desenvolvimento estará hospedado no Heroku, ou seja, em um ambiente diferente da produção para facilitar testes e novos recursos.</p>
+<h1 id="SONAR-EXTRATOR"><a href="#SONAR-EXTRATOR" class="headerlink" title="SONAR EXTRATOR"></a>SONAR EXTRATOR</h1><h3 id="Instalacao"><a href="#Instalacao" class="headerlink" title="Instalação"></a>Instalação</h3><p>O instalador é disponibilizado através do arquivo <strong>Dashboard_Extrator Setup 1.0.0</strong> sempre referenciando a versão na qual ele se encontra.</p>
+<p><img src="http://you img base url/https://i.imgur.com/vRGSUBU.png?e=1614199729&token=your qiniu access key:SLVz84yeAsGxfYy8zRzatUwrzVs=" alt></p>
+<p>Basta executar esse arquivo, sem passos adicionais.</p>
+<h3 id="Visao-Geral"><a href="#Visao-Geral" class="headerlink" title="Visão Geral"></a>Visão Geral</h3><h5 id="Tela-Principal"><a href="#Tela-Principal" class="headerlink" title="Tela Principal"></a>Tela Principal</h5><p><img src="http://you img base url/https://i.imgur.com/wzXXuZA.png?e=1614199729&token=your qiniu access key:xHjscC1NUR7x6tCEc5rAAYXUnvw=" alt></p>
+<h5 id="Registro-de-Empresas"><a href="#Registro-de-Empresas" class="headerlink" title="Registro de Empresas"></a>Registro de Empresas</h5><p>As empresas cadastras na API e que utilizam o Tetra Sonar, estarão disponíveis para serem configuradas na estação.</p>
+<p><img src="http://you img base url/https://i.imgur.com/hTakF7j.png?e=1614199729&token=your qiniu access key:4Pth2MO8WYwTI5UInS_UfLwNois=" alt></p>
+<h5 id="Log-de-Eventos"><a href="#Log-de-Eventos" class="headerlink" title="Log de Eventos"></a>Log de Eventos</h5><p>Todo evento ocorrido manual ou automaticamente será registrado para administração do sistema.</p>
+<p><img src="http://you img base url/https://i.imgur.com/Z1E9Psz.png?e=1614199729&token=your qiniu access key:w_0XAkjzlrf5p23vKv-uYsAOyjI=" alt></p>
+<h5 id="Configuracao"><a href="#Configuracao" class="headerlink" title="Configuração"></a>Configuração</h5><p>A configuração é realizada localmente na máquina do cliente e <strong>NÃO</strong> será sincronizada com a nuvem.</p>
+<p><img src="http://you img base url/https://i.imgur.com/vN4T3jK.png?e=1614199729&token=your qiniu access key:yH3ZrY7iFOE_MK8FIjQ57kjdYuQ=" alt></p>
+<h5 id="Paineis-dos-graficos-de-indicadores"><a href="#Paineis-dos-graficos-de-indicadores" class="headerlink" title="Paineis dos gráficos de indicadores"></a>Paineis dos gráficos de indicadores</h5><p>A aba de painéis será aonde as visões(ou gráficos) serão cadastrados e servirão de referência para enviar os dados frequentemente aos aplicativos da Web e Mobile.</p>
+<p>Para facilitar uma manutenção futura ou perda de dados as visão são sincronizadas automaticamente em um backup na nuvem.</p>
+<p>Caso seja necessário é possível resincronizar o base local com a da nuvem de forma manual. Por exemplo: uma instalação em branco em outra máquina ou na mesma que foi formatada. Basta configurar o acesso ao banco e habilitar, para sincronizar as visões e importar para o ambiente local.</p>
+<p><img src="http://you img base url/https://i.imgur.com/wwPQEKZ.png?e=1614199729&token=your qiniu access key:KUPd6ss1A-SUoTqeIAOeiJAnaR4=" alt></p>
+<h6 id="Repositorio-de-Visoes"><a href="#Repositorio-de-Visoes" class="headerlink" title="Repositório de Visoes"></a>Repositório de Visoes</h6><p>O repositório de visoes tem o objetivo de facilitar e roganizar a distribuicao das visoes para os perfis dos clientes. A medida que a ferramenta vai crescendo é criado um banco de visoes gerando mais facilidade ao suporte e valor ao cliente.</p>
+<p><img src="http://you img base url/https://i.imgur.com/eIJAqDB.png?e=1614199729&token=your qiniu access key:IbAdRlLW99BiNb6i0pMLooXjXz8=" alt></p>
+<h6 id="Cadastro-de-Visoes"><a href="#Cadastro-de-Visoes" class="headerlink" title="Cadastro de Visões"></a>Cadastro de Visões</h6><p><img src="http://you img base url/https://i.imgur.com/55MI6Wo.png?e=1614199729&token=your qiniu access key:ZE2nHKNVaYuHDwjSN44lK7M4BpQ=" alt></p>
+<h5 id="Alarmes"><a href="#Alarmes" class="headerlink" title="Alarmes"></a>Alarmes</h5><p>A aba de alarmes permite cadastrar e configurar quais alarmes serão utilizados no monitoramento do sistema.</p>
+<p>Ao ser acionado o alarme terá um sistema de notificação automaticamente no cliente, sem a necessidade de ficar atualizando a página ou no celular sem a necessidade de estar com aplicação aberta.</p>
+<p>O cliente poderá no ambiente Web/Mobile ativar ou desativar o alarme que automaticamente o serviço deixará de vigiar o sistema em busca de não conformidades.</p>
+<p><img src="http://you img base url/https://i.imgur.com/EMpSDjw.png?e=1614199729&token=your qiniu access key:jWQ8_DqMd7I8xUNf7y2tEfhw-0M=" alt></p>
+<h6 id="Cadastro-de-Alarmes"><a href="#Cadastro-de-Alarmes" class="headerlink" title="Cadastro de Alarmes"></a>Cadastro de Alarmes</h6><p><img src="http://you img base url/https://i.imgur.com/FXvVUct.png?e=1614199729&token=your qiniu access key:gaClAANPJ4jdg9UJVyaP7rexBxo=" alt></p>
+<h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><h2 id="Sonar"><a href="#Sonar" class="headerlink" title="Sonar"></a>Sonar</h2><h5 id="Entro-no-sistema-e-fica-um-fundo-preto-rodando-“Carregando-empresas”"><a href="#Entro-no-sistema-e-fica-um-fundo-preto-rodando-“Carregando-empresas”" class="headerlink" title="Entro no sistema e fica um fundo preto rodando “Carregando empresas”."></a>Entro no sistema e fica um fundo preto rodando “Carregando empresas”.</h5><p><em>Ao entrar no sistema é realizado uma busca na API carregando as empresas cadastradas na aplicação para pré-configuração.</em></p>
+<h5 id="Sistema-nao-sincroniza-os-dados"><a href="#Sistema-nao-sincroniza-os-dados" class="headerlink" title="Sistema não sincroniza os dados"></a>Sistema não sincroniza os dados</h5><ul>
+<li>Verifique se o aplicativo está ativo no servidor do cliente e devidamente configurado</li>
+<li>Verifique se o botão de sincronização <img src="http://you img base url/https://i.imgur.com/NnBgO6w.png?e=1614199729&token=your qiniu access key:S3iOSltXdmRq4EPGMOecdu9cKls=" alt> Ele deve está no <strong>Modo ON</strong></li>
+<li>Verifique se a internet está funcionando</li>
+<li>Verifique se a API está funcional através do link: <a href="https://tetra-dashboard-api.herokuapp.com/swagger/" target="_blank" rel="noopener">Documentação API</a>. Se a documentação não aparecer favor entrar em contato com o desenvolvimento.</li>
+<li>Para todo o resto entre em contato com o desenvolvimento ;-)</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2019/07/26/Tetra-Sonar/" data-id="ckljup4z5000ehzi0ymkdwa9k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AlertaFiscal/">AlertaFiscal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comanda/">Comanda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tetra-ComoTributar-ServicoTetra/">Tetra;ComoTributar;ServicoTetra</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TetraSonar/">TetraSonar</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AlertaFiscal/" style="font-size: 10px;">AlertaFiscal</a> <a href="/tags/Comanda/" style="font-size: 10px;">Comanda</a> <a href="/tags/Tetra-ComoTributar-ServicoTetra/" style="font-size: 10px;">Tetra;ComoTributar;ServicoTetra</a> <a href="/tags/TetraSonar/" style="font-size: 10px;">TetraSonar</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/24/Audittar/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/19/Scantech/">SCANTECH</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/03/Clubiz/">CLUBIZ</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/03/instabuy/">INSTABUY</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/08/AlertaFiscal/">Serviço - Alerta Fiscal</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Carlos Viana<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
