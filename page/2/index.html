@@ -62,6 +62,101 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Como-criar-graficos-e-alertas-no-Tetra-Sonar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/28/Como-criar-graficos-e-alertas-no-Tetra-Sonar/" class="article-date">
+  <time datetime="2019-08-28T13:35:37.000Z" itemprop="datePublished">2019-08-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/28/Como-criar-graficos-e-alertas-no-Tetra-Sonar/">Como criar gráficos e alertas no Tetra Sonar</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Tetra-Sonar-Formato-de-consultas-e-tipos-de-graficos"><a href="#Tetra-Sonar-Formato-de-consultas-e-tipos-de-graficos" class="headerlink" title="Tetra Sonar - Formato de consultas e tipos de gráficos"></a>Tetra Sonar - Formato de consultas e tipos de gráficos</h1><p>Para abastecer os dados através de uma consulta SQL no <strong>Tetra Sonar</strong> o suporte deverá tomar alguns cuidados ao fazer a consulta e definir qual o gráfico sera mostrado.</p>
+<p>Basicamente existem 2 tipos de formato de consulta para abastecer os gráficos.</p>
+<h2 id="Formato-com-2-parametros"><a href="#Formato-com-2-parametros" class="headerlink" title="Formato com 2 parametros"></a>Formato com 2 parametros</h2><h3 id="Para-os-graficos"><a href="#Para-os-graficos" class="headerlink" title="Para os gráficos:"></a>Para os gráficos:</h3><ul>
+<li>pizza</li>
+<li>rosca</li>
+<li>polar</li>
+<li>radar</li>
+<li>lista</li>
+</ul>
+<p>Todas a consultas devem gerar um resultado com duas colunas nomeadas como:</p>
+<ol>
+<li><strong>label</strong> - aonde estará os rótulos dos dados.</li>
+<li><strong>value</strong> - onde está os valores de cada rótulo.</li>
+</ol>
+<h3 id="Exemplo"><a href="#Exemplo" class="headerlink" title="Exemplo:"></a>Exemplo:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP (<span class="number">4</span>) <span class="keyword">MAX</span>(sub.NOME) <span class="keyword">AS</span> label,</span><br><span class="line"><span class="keyword">SUM</span>(rz.QUANT * rz.UNITARIO * - <span class="number">1</span>) <span class="keyword">AS</span> <span class="keyword">value</span></span><br><span class="line"><span class="keyword">FROM</span> dbo.RAZALOJA <span class="keyword">AS</span> rz <span class="keyword">INNER</span> <span class="keyword">JOIN</span></span><br><span class="line">dbo.ESTOQUE <span class="keyword">AS</span> e <span class="keyword">ON</span> rz.CODIGO = e.CODIGO <span class="keyword">AND</span> rz.MOVTO = <span class="string">'VE'</span></span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> dbo.SUBGRUPO <span class="keyword">AS</span> sub <span class="keyword">ON</span> e.SUBGRUPO = sub.CODIGO</span><br><span class="line"><span class="keyword">WHERE</span> (rz.DATA <span class="keyword">BETWEEN</span> @InicioSemana <span class="keyword">AND</span> @FinalSemana)</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> sub.CODIGO</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">SUM</span>(rz.QUANT * rz.UNITARIO * - <span class="number">1</span>) <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Graficos"><a href="#Graficos" class="headerlink" title="Gráficos"></a>Gráficos</h2><p><strong>Lista</strong></p>
+<p>Esse formato é no formato de tabela normal. Uma tabela com duas colunas. Onde o o <em>label</em> é o rótulo da linha e o <em>value</em> é o valor capturado.</p>
+<p><img src="http://you img base url/https://i.imgur.com/2R2bxMf.png?e=1617233968&token=your qiniu access key:ifxmjFYFG4b5AWLDTivRFuWOR4A=" alt></p>
+<p><strong>Rosca</strong><br><img src="http://you img base url/https://i.imgur.com/ENeCM2M.png?e=1617233968&token=your qiniu access key:r7dJeRw6qI1XCD4sQ4AhLUTC7L8=" alt></p>
+<hr>
+<p><strong>Pizza</strong><br><img src="http://you img base url/https://i.imgur.com/nquRKBS.png?e=1617233968&token=your qiniu access key:4cYdJSICRNrpGeYj-ftskCD4n7U=" alt></p>
+<hr>
+<p><strong>Polar</strong><br><img src="http://you img base url/https://i.imgur.com/22LPv5k.png?e=1617233968&token=your qiniu access key:pUcFUICpy9wqFsV66ygn_M-Pat0=" alt></p>
+<hr>
+<p><strong>Radar</strong><br><img src="http://you img base url/https://i.imgur.com/8q1LMJX.png?e=1617233968&token=your qiniu access key:xKqAbR6hpPDNiKMidJWTDhK6nU0=" alt></p>
+<hr>
+<h2 id="Formato-com-3-parametros"><a href="#Formato-com-3-parametros" class="headerlink" title="Formato com 3 parametros"></a>Formato com 3 parametros</h2><h3 id="Para-os-graficos-1"><a href="#Para-os-graficos-1" class="headerlink" title="Para os gráficos:"></a>Para os gráficos:</h3><ul>
+<li>barra</li>
+<li>linha</li>
+<li>barra horizontal</li>
+<li>barra linha</li>
+</ul>
+<p>Todas a consultas devem gerar um resultado com duas colunas nomeadas como:</p>
+<ol>
+<li><strong>label</strong> - aonde estará os rótulos dos dados. <em>Ex: [Jan, Fev, Mar]</em></li>
+<li><strong>bar</strong> - sessao do dado apresentado. Ex: <em>[Compra, Venda, Devolucoes]</em></li>
+<li><strong>value</strong> - onde está os valores de cada rótulo.</li>
+</ol>
+<h3 id="Exemplo-1"><a href="#Exemplo-1" class="headerlink" title="Exemplo:"></a>Exemplo:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(POSICAO) + <span class="string">'-Pagar'</span> <span class="keyword">AS</span> label, <span class="string">'Projeção'</span> <span class="keyword">AS</span> bar, <span class="keyword">SUM</span>(VALOR) <span class="keyword">AS</span> <span class="keyword">value</span></span><br><span class="line"><span class="keyword">FROM</span> dbo.PAGAR</span><br><span class="line"><span class="keyword">WHERE</span> codfil = @codfil <span class="keyword">and</span>  (POSICAO = <span class="string">'AB'</span>)</span><br><span class="line"><span class="keyword">AND</span></span><br><span class="line">(VENCTO <span class="keyword">BETWEEN</span> <span class="keyword">DATEADD</span>(<span class="keyword">MONTH</span>, <span class="number">1</span>, <span class="keyword">DATEADD</span>(<span class="keyword">month</span>, <span class="keyword">DATEDIFF</span>(<span class="keyword">month</span>, <span class="number">0</span>, <span class="keyword">GETDATE</span>()), <span class="number">0</span>))</span><br><span class="line"><span class="keyword">AND</span></span><br><span class="line"><span class="keyword">DATEADD</span>(s, - <span class="number">1</span>, <span class="keyword">DATEADD</span>(mm, <span class="keyword">DATEDIFF</span>(m, <span class="number">0</span>, <span class="keyword">GETDATE</span>()) + <span class="number">2</span>, <span class="number">0</span>)))</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> POSICAO</span><br></pre></td></tr></table></figure>
+
+<h2 id="Graficos-1"><a href="#Graficos-1" class="headerlink" title="Gráficos"></a>Gráficos</h2><p><strong>Barra</strong><br><img src="http://you img base url/https://i.imgur.com/RO7T4Ox.png?e=1617233968&token=your qiniu access key:LotUG7gCkx4cPpv3BcSumUBZXf4=" alt></p>
+<hr>
+<p><strong>Linha</strong><br><img src="http://you img base url/https://i.imgur.com/O5KcbJG.png?e=1617233968&token=your qiniu access key:sSE7RtNzHxjz1-pUt-XF_kSGnWE=" alt></p>
+<hr>
+<p><strong>Barra Horizontal</strong><br><img src="http://you img base url/https://i.imgur.com/UwNcgBn.png?e=1617233968&token=your qiniu access key:WsNvapqzdsyUBJtnFtUVJYgC6mg=" alt></p>
+<hr>
+<p><strong>Barra Linha</strong><br><img src="http://you img base url/https://i.imgur.com/Ed0BeEo.png?e=1617233968&token=your qiniu access key:8JwMe7xTQOVZzzj6G8y_CUqSL68=" alt></p>
+<hr>
+<h2 id="Formato-para-criar-ALARMES"><a href="#Formato-para-criar-ALARMES" class="headerlink" title="Formato para criar ALARMES"></a>Formato para criar ALARMES</h2><p>No caso de alarmes o SQL é um pouco diferente e deve se preocupar com alguns detalhes:</p>
+<ol>
+<li>Nao existem rótulos na consulta, ou seja, pode ser gerado quantas colunas forem necessárias. Deve se preocupar em colocar somente colunas que sejam relevantes pois será mostrado em dispositivos móveis aonde o tamanho de tela é reduzido;<br><strong>Portanto evitem usar no SQL o * para definir as colunas a serem consultadas na consulta</strong></li>
+<li>O tempo definido para executar o alarme deve sem bem pensado. O intervalo deve SEMPRE contemplar um período suficiente para o usuário receber o alerta e tratar o problema antes do próximo monitoramento. Por exemplo: Um alarme de produtos com preco de venda com custo zero. Ao coletar os dados nao conformes ele somente deve ser executado dias após, para dar tempo de delegar a tarefa e ela ser corrigida. Se isso nao acontecer o alarme continuará executando gerando informacoes recorrentes denecessáriamente.</li>
+</ol>
+<h5 id="Exemplo-2"><a href="#Exemplo-2" class="headerlink" title="Exemplo:"></a>Exemplo:</h5><p><strong>Alarme</strong> - Monitar todos os produtos que tenham preco de venda e custo 0 no cadastro de produtos.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> codigo, nome, custo, venda, SITUACAO, cadastro</span><br><span class="line"><span class="keyword">from</span> estoque</span><br><span class="line"><span class="keyword">where</span> custo = <span class="number">0</span> <span class="keyword">and</span> situacao = <span class="string">'A'</span> <span class="keyword">and</span> venda &gt; <span class="number">0.05</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2019/08/28/Como-criar-graficos-e-alertas-no-Tetra-Sonar/" data-id="ckmy17erz0009g8i0gtcw5swu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TetraSonar/">TetraSonar</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Tetra-Sonar" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/07/26/Tetra-Sonar/" class="article-date">
@@ -100,31 +195,31 @@
 </ol>
 <h2 id="Ambiente-de-Homologacao"><a href="#Ambiente-de-Homologacao" class="headerlink" title="Ambiente de Homologação"></a>Ambiente de Homologação</h2><p>O sistema para fins de desenvolvimento estará hospedado no Heroku, ou seja, em um ambiente diferente da produção para facilitar testes e novos recursos.</p>
 <h1 id="SONAR-EXTRATOR"><a href="#SONAR-EXTRATOR" class="headerlink" title="SONAR EXTRATOR"></a>SONAR EXTRATOR</h1><h3 id="Instalacao"><a href="#Instalacao" class="headerlink" title="Instalação"></a>Instalação</h3><p>O instalador é disponibilizado através do arquivo <strong>Dashboard_Extrator Setup 1.0.0</strong> sempre referenciando a versão na qual ele se encontra.</p>
-<p><img src="http://you img base url/https://i.imgur.com/vRGSUBU.png?e=1617231951&token=your qiniu access key:rx0GpzL5aGD0i4od-cYXnrhd2ew=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/vRGSUBU.png?e=1617233968&token=your qiniu access key:WpCt-CWKmmNm3COk2T4aNs5u4NQ=" alt></p>
 <p>Basta executar esse arquivo, sem passos adicionais.</p>
-<h3 id="Visao-Geral"><a href="#Visao-Geral" class="headerlink" title="Visão Geral"></a>Visão Geral</h3><h5 id="Tela-Principal"><a href="#Tela-Principal" class="headerlink" title="Tela Principal"></a>Tela Principal</h5><p><img src="http://you img base url/https://i.imgur.com/wzXXuZA.png?e=1617231951&token=your qiniu access key:j3tNV9NDtVWLWB6XoJWM8nFsucc=" alt></p>
+<h3 id="Visao-Geral"><a href="#Visao-Geral" class="headerlink" title="Visão Geral"></a>Visão Geral</h3><h5 id="Tela-Principal"><a href="#Tela-Principal" class="headerlink" title="Tela Principal"></a>Tela Principal</h5><p><img src="http://you img base url/https://i.imgur.com/wzXXuZA.png?e=1617233968&token=your qiniu access key:NfujwoVYy5Ekc_zFRwm-5RJqkuo=" alt></p>
 <h5 id="Registro-de-Empresas"><a href="#Registro-de-Empresas" class="headerlink" title="Registro de Empresas"></a>Registro de Empresas</h5><p>As empresas cadastras na API e que utilizam o Tetra Sonar, estarão disponíveis para serem configuradas na estação.</p>
-<p><img src="http://you img base url/https://i.imgur.com/hTakF7j.png?e=1617231951&token=your qiniu access key:1zXqEg6y561UdPOvRbUIEixm1ak=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/hTakF7j.png?e=1617233968&token=your qiniu access key:fFIPhxc11v9-v5tZ6oVhzA56oxY=" alt></p>
 <h5 id="Log-de-Eventos"><a href="#Log-de-Eventos" class="headerlink" title="Log de Eventos"></a>Log de Eventos</h5><p>Todo evento ocorrido manual ou automaticamente será registrado para administração do sistema.</p>
-<p><img src="http://you img base url/https://i.imgur.com/Z1E9Psz.png?e=1617231951&token=your qiniu access key:LWOHw7OYVQl0Ttylnc6vDhRaA0E=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/Z1E9Psz.png?e=1617233968&token=your qiniu access key:sMS18p0riXWbjSxKvsCxLn-24vA=" alt></p>
 <h5 id="Configuracao"><a href="#Configuracao" class="headerlink" title="Configuração"></a>Configuração</h5><p>A configuração é realizada localmente na máquina do cliente e <strong>NÃO</strong> será sincronizada com a nuvem.</p>
-<p><img src="http://you img base url/https://i.imgur.com/vN4T3jK.png?e=1617231951&token=your qiniu access key:mGn5aA-8CvP1DOLpxw68XS2y1t0=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/vN4T3jK.png?e=1617233968&token=your qiniu access key:8jEt3ReHmR_GwqUX_GVZ3Tt0eOw=" alt></p>
 <h5 id="Paineis-dos-graficos-de-indicadores"><a href="#Paineis-dos-graficos-de-indicadores" class="headerlink" title="Paineis dos gráficos de indicadores"></a>Paineis dos gráficos de indicadores</h5><p>A aba de painéis será aonde as visões(ou gráficos) serão cadastrados e servirão de referência para enviar os dados frequentemente aos aplicativos da Web e Mobile.</p>
 <p>Para facilitar uma manutenção futura ou perda de dados as visão são sincronizadas automaticamente em um backup na nuvem.</p>
 <p>Caso seja necessário é possível resincronizar o base local com a da nuvem de forma manual. Por exemplo: uma instalação em branco em outra máquina ou na mesma que foi formatada. Basta configurar o acesso ao banco e habilitar, para sincronizar as visões e importar para o ambiente local.</p>
-<p><img src="http://you img base url/https://i.imgur.com/wwPQEKZ.png?e=1617231951&token=your qiniu access key:hppo2IaQvU6qB-Xb8B2Yjkg3vvM=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/wwPQEKZ.png?e=1617233968&token=your qiniu access key:uwmBw4VUQXomewnvvLVpvN3FlcY=" alt></p>
 <h6 id="Repositorio-de-Visoes"><a href="#Repositorio-de-Visoes" class="headerlink" title="Repositório de Visoes"></a>Repositório de Visoes</h6><p>O repositório de visoes tem o objetivo de facilitar e roganizar a distribuicao das visoes para os perfis dos clientes. A medida que a ferramenta vai crescendo é criado um banco de visoes gerando mais facilidade ao suporte e valor ao cliente.</p>
-<p><img src="http://you img base url/https://i.imgur.com/eIJAqDB.png?e=1617231951&token=your qiniu access key:tgwjZDHBErsD4Zksm06CA6nPMWY=" alt></p>
-<h6 id="Cadastro-de-Visoes"><a href="#Cadastro-de-Visoes" class="headerlink" title="Cadastro de Visões"></a>Cadastro de Visões</h6><p><img src="http://you img base url/https://i.imgur.com/55MI6Wo.png?e=1617231951&token=your qiniu access key:bULrmXeb5_P6L9IICre742ITW4w=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/eIJAqDB.png?e=1617233968&token=your qiniu access key:--VrmVHIkF44mqknktGk8C8Ycdg=" alt></p>
+<h6 id="Cadastro-de-Visoes"><a href="#Cadastro-de-Visoes" class="headerlink" title="Cadastro de Visões"></a>Cadastro de Visões</h6><p><img src="http://you img base url/https://i.imgur.com/55MI6Wo.png?e=1617233968&token=your qiniu access key:U6u6Fh4nxH-gMnAslWSRXdxIvvA=" alt></p>
 <h5 id="Alarmes"><a href="#Alarmes" class="headerlink" title="Alarmes"></a>Alarmes</h5><p>A aba de alarmes permite cadastrar e configurar quais alarmes serão utilizados no monitoramento do sistema.</p>
 <p>Ao ser acionado o alarme terá um sistema de notificação automaticamente no cliente, sem a necessidade de ficar atualizando a página ou no celular sem a necessidade de estar com aplicação aberta.</p>
 <p>O cliente poderá no ambiente Web/Mobile ativar ou desativar o alarme que automaticamente o serviço deixará de vigiar o sistema em busca de não conformidades.</p>
-<p><img src="http://you img base url/https://i.imgur.com/EMpSDjw.png?e=1617231951&token=your qiniu access key:vT_yzlzZ-l9CHZIr0UjdCFkdFi8=" alt></p>
-<h6 id="Cadastro-de-Alarmes"><a href="#Cadastro-de-Alarmes" class="headerlink" title="Cadastro de Alarmes"></a>Cadastro de Alarmes</h6><p><img src="http://you img base url/https://i.imgur.com/FXvVUct.png?e=1617231951&token=your qiniu access key:uO2v3_cTYw6qh9XkCWsiF4pT7p8=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/EMpSDjw.png?e=1617233968&token=your qiniu access key:Ql3W8PrltfR8irQIrZCICZyK3xw=" alt></p>
+<h6 id="Cadastro-de-Alarmes"><a href="#Cadastro-de-Alarmes" class="headerlink" title="Cadastro de Alarmes"></a>Cadastro de Alarmes</h6><p><img src="http://you img base url/https://i.imgur.com/FXvVUct.png?e=1617233968&token=your qiniu access key:sbIimi8xLAhCJCy3mhB4vNv6Dfk=" alt></p>
 <h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><h2 id="Sonar"><a href="#Sonar" class="headerlink" title="Sonar"></a>Sonar</h2><h5 id="Entro-no-sistema-e-fica-um-fundo-preto-rodando-“Carregando-empresas”"><a href="#Entro-no-sistema-e-fica-um-fundo-preto-rodando-“Carregando-empresas”" class="headerlink" title="Entro no sistema e fica um fundo preto rodando “Carregando empresas”."></a>Entro no sistema e fica um fundo preto rodando “Carregando empresas”.</h5><p><em>Ao entrar no sistema é realizado uma busca na API carregando as empresas cadastradas na aplicação para pré-configuração.</em></p>
 <h5 id="Sistema-nao-sincroniza-os-dados"><a href="#Sistema-nao-sincroniza-os-dados" class="headerlink" title="Sistema não sincroniza os dados"></a>Sistema não sincroniza os dados</h5><ul>
 <li>Verifique se o aplicativo está ativo no servidor do cliente e devidamente configurado</li>
-<li>Verifique se o botão de sincronização <img src="http://you img base url/https://i.imgur.com/NnBgO6w.png?e=1617231951&token=your qiniu access key:UdOfhBa2E5L_gjofUli_K-KZbwM=" alt> Ele deve está no <strong>Modo ON</strong></li>
+<li>Verifique se o botão de sincronização <img src="http://you img base url/https://i.imgur.com/NnBgO6w.png?e=1617233968&token=your qiniu access key:7vlGERM7tTViSX94zsJZSa1Gyy0=" alt> Ele deve está no <strong>Modo ON</strong></li>
 <li>Verifique se a internet está funcionando</li>
 <li>Verifique se a API está funcional através do link: <a href="https://tetra-dashboard-api.herokuapp.com/swagger/" target="_blank" rel="noopener">Documentação API</a>. Se a documentação não aparecer favor entrar em contato com o desenvolvimento.</li>
 <li>Para todo o resto entre em contato com o desenvolvimento ;-)</li>
@@ -133,7 +228,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2019/07/26/Tetra-Sonar/" data-id="ckmy005w3000elai0mj448ljt" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2019/07/26/Tetra-Sonar/" data-id="ckmy17es4000gg8i0jhul7b9s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -161,7 +256,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AlertaFiscal/">AlertaFiscal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comanda/">Comanda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tetra-ComoTributar-ServicoTetra/">Tetra;ComoTributar;ServicoTetra</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TetraSonar/">TetraSonar</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AlertaFiscal/">AlertaFiscal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comanda/">Comanda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tetra-ComoTributar-ServicoTetra/">Tetra;ComoTributar;ServicoTetra</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TetraSonar/">TetraSonar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fiscal/">fiscal</a></li></ul>
     </div>
   </div>
 
@@ -171,7 +266,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AlertaFiscal/" style="font-size: 10px;">AlertaFiscal</a> <a href="/tags/Comanda/" style="font-size: 10px;">Comanda</a> <a href="/tags/Tetra-ComoTributar-ServicoTetra/" style="font-size: 10px;">Tetra;ComoTributar;ServicoTetra</a> <a href="/tags/TetraSonar/" style="font-size: 10px;">TetraSonar</a>
+      <a href="/tags/AlertaFiscal/" style="font-size: 10px;">AlertaFiscal</a> <a href="/tags/Comanda/" style="font-size: 10px;">Comanda</a> <a href="/tags/Tetra-ComoTributar-ServicoTetra/" style="font-size: 10px;">Tetra;ComoTributar;ServicoTetra</a> <a href="/tags/TetraSonar/" style="font-size: 10px;">TetraSonar</a> <a href="/tags/fiscal/" style="font-size: 10px;">fiscal</a>
     </div>
   </div>
 
@@ -193,6 +288,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/31/Acerto/">Acerto</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/31/GestaoSoftware/">Gestao de Software - Tetra</a>
           </li>
         
@@ -206,10 +305,6 @@
         
           <li>
             <a href="/2020/11/03/Clubiz/">CLUBIZ</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/03/instabuy/">INSTABUY</a>
           </li>
         
       </ul>

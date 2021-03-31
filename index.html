@@ -62,6 +62,131 @@
       <div class="outer">
         <section id="main">
   
+    <article id="integracao-acerto-fiscal-Acerto" class="article article-type-integracao-acerto-fiscal" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/31/Acerto/" class="article-date">
+  <time datetime="2021-03-31T22:38:14.000Z" itemprop="datePublished">2021-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/31/Acerto/">Acerto</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Integracao-Acerto-Fiscal"><a href="#Integracao-Acerto-Fiscal" class="headerlink" title="Integração Acerto Fiscal"></a>Integração Acerto Fiscal</h1><h2 id="Pela-camada-de-banco-de-dados"><a href="#Pela-camada-de-banco-de-dados" class="headerlink" title="Pela camada de banco de dados"></a>Pela camada de banco de dados</h2><p>O processo de homologação na camada de banco de dados se dá pela elaboração das chamadas<br>stored procedures (Procedimentos armazenados), também conhecidas apenas por procedures. As<br>procedures são um conjunto de coordenadas procedurais escritas em SQL para manipular,<br>extrair ou armazenar dados em um banco de dados.</p>
+<p>Como cada banco possui uma distribuição específica de tabelas de acordo com o software usado,<br>fica a cargo da Software House desenvolver a procedure seguindo a sintaxe do banco de dados e<br>conhecimento tácito do modelo de negócio aplicada à camada de dados.</p>
+<p>Corretor Fiscal ™<br>O corretor fiscal é o programa desktop implantado no cliente responsável por executar as<br>procedures e fazer a comunicação do Acerto Fiscal com o banco de dados local do cliente. O<br>Corretor Fiscal geralmente fica instalado no servidor do cliente, ou em uma das máquinas da<br>rede, com acesso ao banco de dados.</p>
+<p>Enviando dados para o acerto - <strong>CORRETORFISCAL_PRODUTOS</strong></p>
+<p>Para enviar dados para o acerto o Corretor Fiscal irá procurar no banco do cliente por uma<br>procedure chamada CORRETORFISCAL_PRODUTOS que ficará encarregada de devolver dados<br>básicos dos produtos cadastrados.<br>A procedure receberá alguns parâmetros vindos do corretor fiscal e por sua vez também enviará<br>dados.</p>
+<h3 id="Parametros-de-entrada"><a href="#Parametros-de-entrada" class="headerlink" title="Parâmetros de entrada"></a>Parâmetros de entrada</h3><p>O corretor enviará alguns dados ao chamar essa procedure, são eles:</p>
+<p><strong>IDCLIENTE</strong> - O ID de cadastro do cliente no Acerto Fiscal. Tipo: VARCHAR(20)</p>
+<p><strong>QTDEREGISTROS</strong> - Usada de forma interna pelo corretor para divisão de carga de envio.Tipo: INTEGER</p>
+<p><strong>SKIPREGISTROS</strong> - Usada de forma interna pelo corretor para definir intervalos de execução.Tipo: INTEGER</p>
+<p><strong>TODOS</strong> - Sinaliza se a procedure deve executar enviar TODOS os dados presentes no banco<br>ou apenas os que ainda não foram corrigidos. Tipo: CHAR(1)</p>
+<h3 id="O-que-a-procedure-deve-fazer"><a href="#O-que-a-procedure-deve-fazer" class="headerlink" title="O que a procedure deve fazer ?"></a>O que a procedure deve fazer ?</h3><p>Quando receber o parâmetro de entrada TODOS como valor T a procedure deve enviar TODOS os<br>produtos presentes no banco do cliente. Quando a procedure receber o parâmetro de entrada<br>TODOS com valor diferente de T a mesma deve enviar apenas os produtos que ainda não foram<br>corrigidos.</p>
+<p>Fica a cargo da Software House a criação de um campo para a sinalização se o produto foi<br>corrigido ou não pelo Corretor Fiscal. No caso da Tetra Soluções o campo a ser usado é o<br>FLAGTRIBUT.</p>
+<h3 id="Exemplo-procedure-CORRETORFISCAL-PRODUTOS"><a href="#Exemplo-procedure-CORRETORFISCAL-PRODUTOS" class="headerlink" title="Exemplo procedure CORRETORFISCAL_PRODUTOS:"></a>Exemplo procedure CORRETORFISCAL_PRODUTOS:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">ALTER</span> <span class="keyword">PROCEDURE</span> dbo.CORRETORFISCAL_PRODUTOS (@IDCLIENTE <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">@QTDEREGISTROS <span class="built_in">INTEGER</span>,@SKIPREGISTROS <span class="built_in">INTEGER</span>,@TODOS <span class="built_in">CHAR</span>(<span class="number">1</span>) = <span class="string">'F'</span>)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">IF</span> @TODOS = <span class="string">'T'</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">SELECT</span> <span class="keyword">MAX</span>(e.CODIGO) <span class="keyword">AS</span> CODIGOINTERNO,<span class="keyword">MAX</span>(e.NOME) <span class="keyword">AS</span> DESCRICAO, <span class="keyword">MAX</span>(e1.EAN) <span class="keyword">AS</span> EAN,<span class="keyword">MAX</span>(e.CODNCM) <span class="keyword">AS</span> CODIGONCM, <span class="keyword">MAX</span>(e.CODCEST) <span class="keyword">AS</span> CODIGOCEST,</span><br><span class="line">  <span class="keyword">MAX</span>(p.SAIDA) <span class="keyword">AS</span> CSTPISSAIDA, <span class="keyword">MAX</span>(p.ALIQPIS) <span class="keyword">AS</span> ALIQPISSAIDA, <span class="keyword">MAX</span>(p.SAIDA) <span class="keyword">AS</span> CSTCOFINSSAIDA, <span class="keyword">MAX</span>(p.ALIQCOFINS) <span class="keyword">AS</span> ALIQCOFINSSAIDA,</span><br><span class="line">  <span class="keyword">MAX</span>(<span class="keyword">CASE</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'T'</span> <span class="keyword">AND</span> (a.REDUCAOBASECALCULO <span class="keyword">IS</span> <span class="literal">NULL</span> <span class="keyword">OR</span> a.REDUCAOBASECALCULO &lt;= <span class="number">0</span>) <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'0'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'T'</span> <span class="keyword">AND</span> a.REDUCAOBASECALCULO &gt; <span class="number">0</span> <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'20'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'F'</span> <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'60'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'I'</span> <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'40'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'N'</span> <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'41'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">END</span>) <span class="keyword">AS</span> CSTICMSSAIDA,</span><br><span class="line">  <span class="keyword">MAX</span>(a.VALOR) <span class="keyword">AS</span> ALIQICMSSAIDA, <span class="keyword">MAX</span>(a.ALIQ_FCP) <span class="keyword">AS</span> FCP_ALIQUOTA,</span><br><span class="line">  <span class="keyword">MAX</span>(<span class="keyword">CASE</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'T'</span> <span class="keyword">AND</span> (a.REDUCAOBASECALCULO <span class="keyword">IS</span> <span class="literal">NULL</span> <span class="keyword">OR</span> a.REDUCAOBASECALCULO &lt;= <span class="number">0</span>) <span class="keyword">THEN</span> <span class="string">'102'</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'T'</span> <span class="keyword">AND</span> a.REDUCAOBASECALCULO &gt; <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">'102'</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'F'</span> <span class="keyword">THEN</span> <span class="string">'500'</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'I'</span> <span class="keyword">THEN</span> <span class="string">'300'</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'N'</span> <span class="keyword">THEN</span> <span class="string">'400'</span></span><br><span class="line">  <span class="keyword">END</span>) <span class="keyword">AS</span> CSOSN</span><br><span class="line">  <span class="keyword">FROM</span> ESTOQUE e</span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> ESTCOD e1 <span class="keyword">ON</span> e.CODIGO = e1.CODIGO <span class="keyword">AND</span> e1.EAN <span class="keyword">NOT</span> <span class="keyword">LIKE</span> <span class="string">'F%'</span> <span class="keyword">AND</span> <span class="keyword">LEN</span>(e1.EAN) &gt; <span class="number">7</span></span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> PISCOF p <span class="keyword">ON</span> e.PISCOF = p.CODIGO</span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> ALIQUOTA a <span class="keyword">ON</span> e.ALIQUOTA = a.CODIGO</span><br><span class="line">  <span class="keyword">WHERE</span> e.SITUACAO = <span class="string">'A'</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> e.CODIGO;</span><br><span class="line"></span><br><span class="line">ELSE</span><br><span class="line"></span><br><span class="line"> <span class="keyword">SELECT</span> <span class="keyword">MAX</span>(e.CODIGO) <span class="keyword">AS</span> CODIGOINTERNO,<span class="keyword">MAX</span>(e.NOME) <span class="keyword">AS</span> DESCRICAO, <span class="keyword">MAX</span>(e1.EAN) <span class="keyword">AS</span> EAN, <span class="keyword">MAX</span>(e.CODNCM) <span class="keyword">AS</span> CODIGONCM, <span class="keyword">MAX</span>(e.CODCEST) <span class="keyword">AS</span> CODIGOCEST,</span><br><span class="line"> <span class="keyword">MAX</span>(p.SAIDA) <span class="keyword">AS</span> CSTPISSAIDA, <span class="keyword">MAX</span>(p.ALIQPIS) <span class="keyword">AS</span> ALIQPISSAIDA,<span class="keyword">MAX</span>(p.SAIDA) <span class="keyword">AS</span> CSTCOFINSSAIDA, <span class="keyword">MAX</span>(p.ALIQCOFINS) <span class="keyword">AS</span> ALIQCOFINSSAIDA,</span><br><span class="line"> <span class="keyword">MAX</span>(<span class="keyword">CASE</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'T'</span> <span class="keyword">AND</span> (a.REDUCAOBASECALCULO <span class="keyword">IS</span> <span class="literal">NULL</span> <span class="keyword">OR</span> a.REDUCAOBASECALCULO &lt;= <span class="number">0</span>) <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'0'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'T'</span> <span class="keyword">AND</span> a.REDUCAOBASECALCULO &gt; <span class="number">0</span> <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'20'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'F'</span> <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'60'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'I'</span> <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'40'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'N'</span> <span class="keyword">THEN</span> <span class="keyword">RIGHT</span>( <span class="string">'0'</span> + <span class="keyword">convert</span>(<span class="built_in">varchar</span>(<span class="number">2</span>), <span class="string">'41'</span>), <span class="number">2</span> )</span><br><span class="line">  <span class="keyword">END</span>) <span class="keyword">AS</span> CSTICMSSAIDA,</span><br><span class="line">  <span class="keyword">MAX</span>(a.VALOR) <span class="keyword">AS</span> ALIQICMSSAIDA, <span class="keyword">MAX</span>(a.ALIQ_FCP) <span class="keyword">AS</span> FCP_ALIQUOTA,</span><br><span class="line">  <span class="keyword">MAX</span>(<span class="keyword">CASE</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'T'</span> <span class="keyword">AND</span> (a.REDUCAOBASECALCULO <span class="keyword">IS</span> <span class="literal">NULL</span> <span class="keyword">OR</span> a.REDUCAOBASECALCULO &lt;= <span class="number">0</span>) <span class="keyword">THEN</span> <span class="string">'102'</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'T'</span> <span class="keyword">AND</span> a.REDUCAOBASECALCULO &gt; <span class="number">0</span> <span class="keyword">THEN</span> <span class="string">'102'</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'F'</span> <span class="keyword">THEN</span> <span class="string">'500'</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'I'</span> <span class="keyword">THEN</span> <span class="string">'300'</span></span><br><span class="line">  <span class="keyword">WHEN</span> e.ICMS_SAI = <span class="string">'N'</span> <span class="keyword">THEN</span> <span class="string">'400'</span></span><br><span class="line">  <span class="keyword">END</span>) <span class="keyword">AS</span> CSOSN</span><br><span class="line">  <span class="keyword">FROM</span> ESTOQUE e</span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> ESTCOD e1 <span class="keyword">ON</span> e.CODIGO = e1.CODIGO <span class="keyword">AND</span> e1.EAN <span class="keyword">NOT</span> <span class="keyword">LIKE</span> <span class="string">'F%'</span> <span class="keyword">AND</span> <span class="keyword">LEN</span>(e1.EAN) &gt; <span class="number">7</span></span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> PISCOF p <span class="keyword">ON</span> e.PISCOF = p.CODIGO</span><br><span class="line">  <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> ALIQUOTA a <span class="keyword">ON</span> e.ALIQUOTA = a.CODIGO</span><br><span class="line">  <span class="keyword">WHERE</span> e.SITUACAO = <span class="string">'A'</span> <span class="keyword">AND</span>  e.FLAGSEMREVISAO &lt;&gt; <span class="string">'1'</span> <span class="keyword">AND</span> e.FLAGTRIBUT &lt;&gt; <span class="string">'T'</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> e.CODIGO;</span><br><span class="line"></span><br><span class="line">RETURN</span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<p>Esse exemplo demonstra o corpo inicial de uma procedure CORRETORFISCAL_PRODUTOS. Nele<br>pode ser visto os parâmetros de entrada e saída sendo aplicados. Fica a cargo da Sotware House<br>empregar a lógica de coleta dos parâmetros.</p>
+<p>Recebendo dados corrigidos do acerto - <strong>CORRIGIR_TRIBUTACAO</strong></p>
+<p>O Corretor fiscal fará uso da procedure descrita acima para enviar os dados para o banco de<br>dados do acerto que por sua vez retornará os dados tributários corrigidos. A procedure<br>encarregada de persistir os dados corrigidos pelo acerto no banco de dados do cliente é a<br><strong>CORRIGIR_TRIBUTACAO</strong>.</p>
+<p>Assim como a <strong>CORRETORFISCAL_PRODUTOS</strong> a <strong>CORRIGIR_TRIBUTACAO</strong> também recebe dados de<br>entrada e saída.</p>
+<p><strong>Parâmetros de entrada</strong></p>
+<p>O corretor devolverá os dados tributários corrigidos referente a cada produto no banco do<br>cliente, são eles:</p>
+<p><strong>IDCLIENTE</strong> - O ID de cadastro do cliente no Acerto Fiscal. Tipo:<br>ARCHAR(20)</p>
+<p><strong>CODIGOPRODUTO</strong> - Código interno do produto, podendo ser a chave primária do mesmo ou<br>quaisquer outras colunas usadas como identificadores únicos com exceção do EAN. Tipo: VARCHAR(100)</p>
+<p><strong>CODIGOEAN</strong> - Código EAN. Tipo: VARCHAR(14)</p>
+<p><strong>NCM</strong> - Nomenclatura Comum do Mercosul. Tipo: VARCHAR(14)</p>
+<p><strong>NCM_EX</strong> -</p>
+<p><strong>CEST</strong> - Código Especificador da Substituição Tributária Corrigido Tipo: VARCHAR(10)</p>
+<p><strong>CODIGOSEGMENTO</strong> - A tributação está organizada em segmentos dentro do banco do<br>acerto. Esse dado é retornado caso seja necessário criar algum tipo de distinção tributária<br>baseada em dados fornecidos pelo acerto. Tipo: INTEGER</p>
+<p><strong>NOMESEGMENTO</strong> - Nome do segmento, veja atributo acima Tipo: VARCHAR(200)</p>
+<p><strong>DESCRICAONCM</strong> - Descrição corrigida do NCM, pode ser usado para corrigir a tributação<br>existente do NCM. Tipo: VARCHAR(200)</p>
+<p><strong>ICMS_ALIQUOTA</strong> - Alíquota de ICMS corrigida. Tipo: DOUBLE</p>
+<p><strong>ICMS_CST</strong> - Código de Substituição Tributária do ICMS. Tipo: CHAR(2)</p>
+<p><strong>ICMS_ORIGEM_CST</strong> - Código de Substituição Tributária de Origem do ICMS. Tipo: CHAR(3)</p>
+<p><strong>ICMS_REDUCAOBASE</strong> - Redução base do ICMS. Tipo: DOUBLE</p>
+<p><strong>CSOSN</strong> - Código de Situação da Operação do Simples Nacional corrigido. Tipo: INTEGER</p>
+<p><strong>ORIGEM</strong> - Código de Origem. Tipo: CHAR(1)</p>
+<p><strong>IPI_CST</strong> - Código de Substituição Tributária do IPI corrigido. Tipo: VARCHAR(2)</p>
+<p><strong>IPI_ALIQUOTA</strong> - Alíquota IPI corrigida. Tipo: DOUBLE</p>
+<p><strong>CFOP</strong> - Código Fiscal de Operações e Prestações. Tipo: CHAR(4)</p>
+<p><strong>PIS_CST</strong> - Código de Substituição Tributária do PIS corrigido. Tipo: CHAR(2)</p>
+<p><strong>PIS_ALIQUOTA</strong> - Alíquota do PIS corrigida. Tipo: DOUBLE</p>
+<p><strong>COFINS_CST</strong> - Código de Substituição Tributária do COFINS corrigido. Tipo: CHAR(2)</p>
+<p><strong>COFINS_ALIQUOTA</strong> - Alíquota COFINS corrigida. Tipo: DOUBLE</p>
+<p><strong>NATUREZARECEITA</strong> - Natureza da receita. Tipo: VARCHAR(3)</p>
+<p><strong>ICMS_SITUACAOTRIBUTARIA</strong> - ICMS de substituição tributária corrigido. Caso não precise ser<br>corrigido, pode ser definido como um varchar vazio Tipo: VARCHAR(50)</p>
+<p><strong>FCP_ALIQUOTA</strong> - Alíquota do Fundo de combate a pobreza corrigida. Caso não precise ser<br>corrigido pode ser definido um valor padrão. Tipo: DOUBLE</p>
+<p><strong>DESONERACAO</strong> - Campo informando se o produto tem desoneração ou não. Caso não exista<br>aceita valor padrão ‘F’. Tipo: CHAR(1)</p>
+<p><strong>MOTIVODESONERACAO</strong> - Motivo da desoneração corrigido. Aceita campo padrão. Tipo: CHAR(1)</p>
+<p><strong>ALIQUOTADESONERACAO</strong> - Alíquota desoneração corrigida. Aceita campo padrão. Tipo: CHAR(1)<br>CODIGOBENEFICIO - Código benefício corrigido.</p>
+<p><strong>Parâmetros de retorno</strong></p>
+<p>A procedure por sua vez retornará um status para o Acerto Fiscal para que o mesmo analise<br>dados sobre a correção. É encorajado o uso de transações e blocos try catch . Os campos de<br>retorno podem ser usados para fornecer informações úteis a cerca de possíveis erros de<br>execução ou informar o processamento correto da procedure</p>
+<p><strong>STATUS</strong> - Um código de status definido pelos desenvolvedores da procedure, pode ser OK, 200,<br>500 de acordo com o tipo de retorno da procedure</p>
+<p><strong>MENSAGEMERRO</strong> - Uma mensagem de erro ou de status</p>
+<p>Obs.: No caso do campo STATUS o valor 0 (ZERO) significa que o produto foi corrigido, foi revisado.<br>Qualquer outro valor diferente de 0 (ZERO), significa o produto não foi corrigido.</p>
+<p><strong>O que a procedure deve fazer ?</strong></p>
+<p>A procedure <strong>CORRIGIR_TRIBUTACAO</strong> recebe os dados corrigidos do banco do Acerto Fiscal e se<br>encarrega de persisti-los no banco do cliente.</p>
+<p>Também fica a cargo dessa procedure alimentar o campo FLAGTRIBUT com ‘T’ caso<br>a execução seja bem sucedida (veja o tópico O que a procedure deve fazer ? da procedure<br>CORRETORFISCAL_PRODUTOS). Dessa forma, o corretor terá a habilidade de enviar somente os<br>produtos pendentes de análise em seu fluxo de execução padrão.</p>
+<p>Exemplo procedure CORRIGIR_TRIBUTACAO:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> dbo.CORRIGIR_TRIBUTACAO (</span><br><span class="line">					@IDCLIENTE <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">					@CODIGOPRODUTO <span class="built_in">VARCHAR</span>(<span class="number">50</span>),</span><br><span class="line">					@CODIGOEAN <span class="built_in">VARCHAR</span>(<span class="number">14</span>),</span><br><span class="line">					@NCM <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">					@NCM_EX <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">					@CEST <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">					@IDSEGMENTO <span class="built_in">INTEGER</span>,</span><br><span class="line">					@NOMESEGMENTO <span class="built_in">VARCHAR</span>(<span class="number">200</span>),</span><br><span class="line">					@DESCRICAONCM <span class="built_in">VARCHAR</span>(<span class="number">200</span>),</span><br><span class="line">					@ICMS_ALIQUOTA <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span>,</span><br><span class="line">					@ICMS_CST <span class="built_in">CHAR</span>(<span class="number">2</span>),</span><br><span class="line">					@ICMS_ORIGEM_CST <span class="built_in">CHAR</span>(<span class="number">3</span>),</span><br><span class="line">					@ICMS_REDUCAOBASE <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span>,</span><br><span class="line">					@CSOSN <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">					@ORIGEM <span class="built_in">CHAR</span>(<span class="number">1</span>),</span><br><span class="line">					@IPI_CST <span class="built_in">CHAR</span>(<span class="number">2</span>),</span><br><span class="line">					@IPI_ALIQUOTA <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span>,</span><br><span class="line">					@CFOP <span class="built_in">CHAR</span>(<span class="number">4</span>),</span><br><span class="line">					@PIS_CST <span class="built_in">CHAR</span>(<span class="number">2</span>),</span><br><span class="line">					@PIS_ALIQUOTA <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span>,</span><br><span class="line">					@COFINS_CST <span class="built_in">CHAR</span>(<span class="number">2</span>),</span><br><span class="line">					@COFINS_ALIQUOTA <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span>,</span><br><span class="line">					@NATUREZARECEITA <span class="built_in">VARCHAR</span>(<span class="number">3</span>),</span><br><span class="line">					@ICMS_SITUACAOTRIBUTARIA <span class="built_in">VARCHAR</span>(<span class="number">50</span>) = <span class="string">''</span>,</span><br><span class="line">					@FCP_ALIQUOTA <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span> = <span class="number">0</span>,</span><br><span class="line">					@DESONERACAO <span class="built_in">CHAR</span>(<span class="number">1</span>) = <span class="string">'F'</span>,</span><br><span class="line">					@MOTIVODESONERACAO <span class="built_in">CHAR</span>(<span class="number">1</span>) = <span class="string">'9'</span>,</span><br><span class="line">					@ALIQUOTADESONERACAO <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span> = <span class="number">0</span>,</span><br><span class="line">					@CODIGOBENEFICIO <span class="built_in">VARCHAR</span>(<span class="number">10</span>) = <span class="string">''</span>,</span><br><span class="line">					@<span class="keyword">STATUS</span> <span class="built_in">INTEGER</span> <span class="keyword">OUTPUT</span>,</span><br><span class="line">					@MENSAGEMERRO <span class="built_in">VARCHAR</span>(<span class="number">400</span>) <span class="keyword">OUTPUT</span></span><br><span class="line"> ) <span class="keyword">AS</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">DECLARE</span> @NOME_PROD <span class="built_in">VARCHAR</span>(<span class="number">40</span>);</span><br><span class="line">    <span class="keyword">DECLARE</span> @COD_ALIQUOTA <span class="built_in">NUMERIC</span>(<span class="number">4</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">DECLARE</span> @COD_ULTREG <span class="built_in">INT</span>;</span><br><span class="line">    <span class="keyword">DECLARE</span> @ICMS_SAI <span class="built_in">CHAR</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">DECLARE</span> @COD_PISCOF <span class="built_in">NUMERIC</span>(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">DECLARE</span> @MOTIVODESON <span class="built_in">INT</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- PEGA O NOME DO PRODUTO CADASTRADO NO BANCO DO CLIENTE</span></span><br><span class="line">    <span class="keyword">SET</span> @NOME_PROD = (<span class="keyword">SELECT</span> e.NOME <span class="keyword">FROM</span> ESTOQUE e <span class="keyword">WHERE</span> e.CODIGO = @CODIGOPRODUTO);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">SET</span> @COD_ALIQUOTA = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">SET</span> @COD_PISCOF = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">SET</span> @COD_ULTREG = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     <span class="comment">-- VERIFICAÇÃO DA ALIQUOTA - ICMS_SAI</span></span><br><span class="line">    IF NOT EXISTS ( <span class="keyword">SELECT</span> TOP <span class="number">1</span> a.CODIGO <span class="keyword">FROM</span> ALIQUOTA a <span class="keyword">WHERE</span> valor = @ICMS_ALIQUOTA <span class="keyword">AND</span> a.ALIQ_FCP = @FCP_ALIQUOTA <span class="keyword">AND</span> a.REDUCAOBASECALCULO = @ICMS_REDUCAOBASE )</span><br><span class="line"></span><br><span class="line">      <span class="keyword">BEGIN</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">--select no ultreg campo tabela = 'aliquota' -&gt; codigo</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>  (<span class="keyword">SELECT</span> u.CODIGO <span class="keyword">FROM</span> ULTREG u <span class="keyword">WHERE</span> u.TABELA = <span class="string">'ALIQUOTA'</span>)</span><br><span class="line">          <span class="keyword">BEGIN</span></span><br><span class="line">            <span class="keyword">SET</span> @COD_ULTREG = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">INSERT</span> <span class="keyword">INTO</span> ULTREG (TABELA,CODIGO) <span class="keyword">VALUES</span> (<span class="string">'ALIQUOTA'</span>,@COD_ULTREG);</span><br><span class="line">          <span class="keyword">END</span></span><br><span class="line">        <span class="keyword">ELSE</span></span><br><span class="line">          <span class="keyword">BEGIN</span></span><br><span class="line">            <span class="keyword">SET</span> @COD_ULTREG = (<span class="keyword">SELECT</span> u.CODIGO <span class="keyword">FROM</span> ULTREG u <span class="keyword">WHERE</span> u.TABELA = <span class="string">'ALIQUOTA'</span>);</span><br><span class="line">          <span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">-- insert em aliquota</span></span><br><span class="line">         <span class="keyword">SET</span> @COD_ALIQUOTA = @COD_ULTREG;</span><br><span class="line">         <span class="keyword">INSERT</span> <span class="keyword">INTO</span> ALIQUOTA (CODIGO,VALOR,ESTADO,ALIQ_FCP,REDUCAOBASECALCULO) <span class="keyword">VALUES</span> (@COD_ALIQUOTA,@ICMS_ALIQUOTA,<span class="string">'RJ'</span>,@FCP_ALIQUOTA,@ICMS_REDUCAOBASE);</span><br><span class="line"></span><br><span class="line">        <span class="comment">--update no ultreg</span></span><br><span class="line">        <span class="keyword">UPDATE</span> ULTREG <span class="keyword">SET</span> CODIGO = @COD_ULTREG + <span class="number">1</span> <span class="keyword">WHERE</span> TABELA = <span class="string">'ALIQUOTA'</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">END</span></span><br><span class="line">    <span class="keyword">ELSE</span></span><br><span class="line">      <span class="keyword">BEGIN</span></span><br><span class="line">        <span class="keyword">SET</span> @COD_ALIQUOTA =  ( <span class="keyword">SELECT</span> TOP <span class="number">1</span> a.CODIGO <span class="keyword">FROM</span> ALIQUOTA a <span class="keyword">WHERE</span> valor = @ICMS_ALIQUOTA <span class="keyword">AND</span> a.ALIQ_FCP = @FCP_ALIQUOTA <span class="keyword">AND</span> a.REDUCAOBASECALCULO = @ICMS_REDUCAOBASE );</span><br><span class="line">      <span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- VERIFICAÇÃO DO PISCOF_SAIDA</span></span><br><span class="line">    <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>  (<span class="keyword">SELECT</span> TOP <span class="number">1</span> p.CODIGO <span class="keyword">FROM</span> PISCOF p <span class="keyword">WHERE</span> p.SAIDA = @PIS_CST <span class="keyword">AND</span>  p.ALIQPIS = @PIS_ALIQUOTA <span class="keyword">AND</span> p.ALIQCOFINS = @COFINS_ALIQUOTA )</span><br><span class="line"></span><br><span class="line">      <span class="keyword">BEGIN</span></span><br><span class="line">    	  <span class="comment">--select no ultreg campo tabela = 'PISCOF' -&gt; codigo</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> u.CODIGO <span class="keyword">FROM</span> ULTREG u <span class="keyword">WHERE</span> u.TABELA = <span class="string">'PISCOF'</span>)</span><br><span class="line">          <span class="keyword">BEGIN</span></span><br><span class="line">            <span class="keyword">SET</span> @COD_ULTREG = @COD_ULTREG + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">INSERT</span> <span class="keyword">INTO</span> ULTREG (TABELA,CODIGO) <span class="keyword">VALUES</span> (<span class="string">'PISCOF'</span>,@COD_ULTREG);</span><br><span class="line">          <span class="keyword">END</span></span><br><span class="line">        <span class="keyword">ELSE</span></span><br><span class="line">          <span class="keyword">BEGIN</span></span><br><span class="line">            <span class="keyword">SET</span> @COD_ULTREG = (<span class="keyword">SELECT</span> u.CODIGO <span class="keyword">FROM</span> ULTREG u <span class="keyword">WHERE</span> u.TABELA = <span class="string">'PISCOF'</span>);</span><br><span class="line">          <span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">           <span class="comment">-- insert em piscof</span></span><br><span class="line">          <span class="keyword">INSERT</span> <span class="keyword">INTO</span> PISCOF (CODIGO,DESCRICAO,ENTRADA,SAIDA,ALIQPIS,ALIQCOFINS,NAT_REC) <span class="keyword">VALUES</span> (@COD_ULTREG,<span class="string">'OUTROS'</span>,<span class="string">'00'</span>,@PIS_CST,@PIS_ALIQUOTA,@COFINS_ALIQUOTA,<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">           <span class="comment">--update em estoque, campo PISCOF</span></span><br><span class="line">          <span class="keyword">UPDATE</span> ESTOQUE <span class="keyword">SET</span> PISCOF = @COD_ULTREG <span class="keyword">WHERE</span> CODIGO = @CODIGOPRODUTO;</span><br><span class="line"></span><br><span class="line">          <span class="comment">--update no ultreg</span></span><br><span class="line">          <span class="keyword">SET</span> @COD_ULTREG = @COD_ULTREG + <span class="number">1</span>;</span><br><span class="line">          <span class="keyword">UPDATE</span> ULTREG <span class="keyword">SET</span> CODIGO = @COD_ULTREG <span class="keyword">WHERE</span> TABELA = <span class="string">'PISCOF'</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">END</span></span><br><span class="line">    <span class="keyword">ELSE</span></span><br><span class="line">      <span class="keyword">BEGIN</span></span><br><span class="line">          <span class="keyword">SET</span> @COD_PISCOF = (<span class="keyword">SELECT</span> TOP <span class="number">1</span> p.CODIGO <span class="keyword">FROM</span> PISCOF p <span class="keyword">WHERE</span> p.SAIDA = @PIS_CST <span class="keyword">AND</span>  p.ALIQPIS = @PIS_ALIQUOTA <span class="keyword">AND</span> p.ALIQCOFINS = @COFINS_ALIQUOTA );</span><br><span class="line">          <span class="keyword">UPDATE</span> ESTOQUE <span class="keyword">SET</span> PISCOF = @COD_PISCOF <span class="keyword">WHERE</span> CODIGO = @CODIGOPRODUTO;</span><br><span class="line">      <span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">-- se @ICMS_CST - 00,20 = T  10,30,60,70 =&gt; 'F' 40 -&gt; I 41 -&gt; N</span></span><br><span class="line">    <span class="keyword">SET</span> @ICMS_SAI = <span class="keyword">CASE</span></span><br><span class="line">      <span class="keyword">WHEN</span> @ICMS_CST <span class="keyword">IN</span> (<span class="string">'00'</span>,<span class="string">'20'</span>) <span class="keyword">THEN</span> <span class="string">'T'</span></span><br><span class="line">      <span class="keyword">WHEN</span> @ICMS_CST <span class="keyword">IN</span> (<span class="string">'10'</span>,<span class="string">'30'</span>,<span class="string">'60'</span>,<span class="string">'70'</span>) <span class="keyword">THEN</span> <span class="string">'F'</span></span><br><span class="line">      <span class="keyword">WHEN</span> @ICMS_CST <span class="keyword">IN</span> (<span class="string">'40'</span>) <span class="keyword">THEN</span> <span class="string">'I'</span></span><br><span class="line">      <span class="keyword">WHEN</span> @ICMS_CST <span class="keyword">IN</span> (<span class="string">'41'</span>) <span class="keyword">THEN</span> <span class="string">'N'</span></span><br><span class="line">      <span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">IF</span> @MOTIVODESONERACAO = <span class="string">''</span> <span class="keyword">OR</span> @MOTIVODESONERACAO <span class="keyword">IS</span> <span class="literal">NULL</span></span><br><span class="line">      <span class="keyword">BEGIN</span></span><br><span class="line">    	  <span class="keyword">SET</span> @MOTIVODESON = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">END</span></span><br><span class="line">    <span class="keyword">ELSE</span></span><br><span class="line">      <span class="keyword">BEGIN</span></span><br><span class="line">        <span class="keyword">SET</span> @MOTIVODESON = <span class="keyword">CONVERT</span>(<span class="built_in">INT</span>, @MOTIVODESONERACAO);</span><br><span class="line">      <span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">BEGIN</span> TRY</span><br><span class="line">      <span class="keyword">UPDATE</span> ESTOQUE <span class="keyword">SET</span></span><br><span class="line">      ALIQUOTA = <span class="keyword">CASE</span> <span class="keyword">WHEN</span> @ICMS_SAI = <span class="string">'I'</span> <span class="keyword">THEN</span> @ALIQUOTADESONERACAO <span class="keyword">ELSE</span> @COD_ALIQUOTA <span class="keyword">END</span>,</span><br><span class="line">      CODNCM = <span class="keyword">LEFT</span>(@NCM,<span class="number">8</span>), ICMS_SAI = @ICMS_SAI, MOTIVODESON = @MOTIVODESON, PISCOF = @COD_PISCOF,</span><br><span class="line">      NATRECPISCOF = <span class="keyword">CONVERT</span>(<span class="built_in">INT</span>,@NATUREZARECEITA), CODCEST = <span class="keyword">LEFT</span>(@CEST,<span class="number">7</span>), CODBENEFICIO =	@CODIGOBENEFICIO,</span><br><span class="line">      FLAGTRIBUT = <span class="string">'T'</span>, DTTRIBUT = <span class="keyword">GETDATE</span>() <span class="keyword">WHERE</span> CODIGO = @CODIGOPRODUTO;</span><br><span class="line">    <span class="keyword">END</span> TRY</span><br><span class="line">      <span class="keyword">BEGIN</span> CATCH</span><br><span class="line">	<span class="keyword">SET</span> @<span class="keyword">STATUS</span> = <span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">SET</span> @MENSAGEMERRO = ERROR_MESSAGE() + ERROR_LINE();</span><br><span class="line">	RETURN;</span><br><span class="line">     <span class="keyword">END</span> CATCH;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">SET</span> @<span class="keyword">STATUS</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">SET</span> @MENSAGEMERRO = <span class="string">'REVISADO - OK'</span>;</span><br><span class="line"></span><br><span class="line">    RETURN;</span><br><span class="line">  <span class="keyword">END</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">GO</span></span><br></pre></td></tr></table></figure>
+
+<p>Esse exemplo demonstra o corpo inicial de uma procedure CORRIGIR_TRIBUTACAO. Nele pode<br>ser visto os parâmetros de entrada e saída sendo aplicados. Fica a cargo da Sotware House<br>persistir os dados, tal como a utilização de boas práticas no desenvolvimento da mesma.</p>
+<p><strong>Trigger TRG_TributosEstoque_AU</strong></p>
+<p>A trigger TRG_TributosEstoque_AU é uma customização específica da empresa Tetra Soluções.<br>O objetivo da trigger TRG_TributosEstoque_AU é verificar se alguns campos da tabela ESTOQUE<br>sofreram alguma alteração.</p>
+<p>Exemplo dos campos que podem sofrer alteração no cadastro de produto. Tabela ESTOQUE:</p>
+<ul>
+<li>ALIQUOTA</li>
+<li>CODNCM</li>
+<li>ICMS_SAI</li>
+<li>MOTIVODESON</li>
+<li>PISCOF</li>
+<li>NATRECPISCOF</li>
+<li>CODCEST</li>
+<li>CODBENEFICIO</li>
+</ul>
+<p>Caso um desses campos sofram alguma alteração, a trigger irá marcar os campos FLAGTRIBUT = ‘F’,<br>DTTRIBUT = null de acordo com o código do produto. Isso significa que o produto em questão está<br>sendo marcado para ser revisado na próxima correção.</p>
+<p>Obs.: Caso o campo FLAGSEMREVISAO esteja com valor igual a ‘1’, significa que esse produto não será<br>revisado em momento algum, ou seja, nunca será revisado.</p>
+<h3 id="Exemplo-trigger-TRG-TributosEstoque-AU"><a href="#Exemplo-trigger-TRG-TributosEstoque-AU" class="headerlink" title="Exemplo trigger TRG_TributosEstoque_AU:"></a>Exemplo trigger TRG_TributosEstoque_AU:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> dbo.TRG_TributosEstoque_AU</span><br><span class="line"><span class="keyword">ON</span> ESTOQUE <span class="keyword">AFTER</span> <span class="keyword">UPDATE</span></span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">DECLARE</span> @COD_PROD <span class="built_in">NUMERIC</span>(<span class="number">6</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">DECLARE</span> @AUX_FLAGTIRBUT <span class="built_in">CHAR</span>(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">SELECT</span> @COD_PROD = ins.CODIGO <span class="keyword">FROM</span> INSERTED ins;</span><br><span class="line">  <span class="keyword">SELECT</span> @AUX_FLAGTIRBUT = ins.FLAGTRIBUT <span class="keyword">FROM</span> INSERTED ins;</span><br><span class="line"></span><br><span class="line">  IF ((<span class="keyword">UPDATE</span>(ALIQUOTA) <span class="keyword">OR</span> <span class="keyword">UPDATE</span>(CODNCM) <span class="keyword">OR</span> <span class="keyword">UPDATE</span>(ICMS_SAI) <span class="keyword">OR</span> <span class="keyword">UPDATE</span>(MOTIVODESON) <span class="keyword">OR</span> <span class="keyword">UPDATE</span>(PISCOF)</span><br><span class="line">    <span class="keyword">OR</span> <span class="keyword">UPDATE</span>(NATRECPISCOF) <span class="keyword">OR</span> <span class="keyword">UPDATE</span>(CODCEST) <span class="keyword">OR</span> <span class="keyword">UPDATE</span>(CODBENEFICIO)) <span class="keyword">AND</span> (@AUX_FLAGTIRBUT &lt;&gt; <span class="string">'T'</span>))</span><br><span class="line">  <span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">UPDATE</span> ESTOQUE <span class="keyword">SET</span> FLAGTRIBUT = <span class="string">'F'</span>, DTTRIBUT = <span class="literal">NULL</span> <span class="keyword">WHERE</span> CODIGO = @COD_PROD;</span><br><span class="line">  <span class="keyword">END</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"><span class="keyword">GO</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Informacoes-para-IMPLANTACAO-E-SUPORTE-EQUIPE-TETRA"><a href="#Informacoes-para-IMPLANTACAO-E-SUPORTE-EQUIPE-TETRA" class="headerlink" title="Informações para IMPLANTAÇÃO E SUPORTE. EQUIPE TETRA"></a>Informações para IMPLANTAÇÃO E SUPORTE. EQUIPE TETRA</h1><p>O procedimento de instalação consiste nesses passos:</p>
+<ol>
+<li>Criar os procedimentos no cliente:<ol>
+<li>procedure <strong>CORRETORFISCAL_PRODUTOS</strong> - essa procedure pega os produtos ATIVOS com o campo <em>flagtribut</em> &lt;&gt; ‘T’ e que não esteja marcados como <em>sem revisão</em> no seu cadastro. Enviam para análise do ACERTO FISCAL;</li>
+<li>procedure <strong>CORRIGIR_TRIBUTACAO</strong> - esta procedure é consumida pelo integrador do ACERTO FISCAL para atualizar os produtos revisados.</li>
+<li>trigger <strong>TRG_TributosEstoque_AU</strong> - coloca o produto para ser revisado sempre que algum campo de tributação for alterado pelo usuário.</li>
+</ol>
+</li>
+<li>Informar ao CLIENTE e a equipe do ACERTO FISCAL que o banco de dados está pronto para ser integrado.</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sincronos.github.io/2021/03/31/Acerto/" data-id="ckmy17erq0001g8i0l1t7fkfr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fiscal/">fiscal</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="gestao-software-GestaoSoftware" class="article article-type-gestao-software" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/03/31/GestaoSoftware/" class="article-date">
@@ -270,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2021/03/31/GestaoSoftware/" data-id="ckmy005w1000alai05lw1kpkm" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2021/03/31/GestaoSoftware/" data-id="ckmy17es0000cg8i05vxhqvqx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -303,28 +428,28 @@
 <p>A integração faz com que clientes que utilizam o sistema da Tetra possam usar esses serviços da Audittar de forma mais fácil, sendo totalmente integrado ao sistema.</p>
 <p>Existe a forma automática, que todo dia o integrador consulta os produtos e obtem as atualizações que a Audittar faz de acordo com o tempo. Porém existe a forma manual que o cliente pode fazer dentro do sistema no cadastro do produto e verificar na hora se o produto tem atualização de tributação e ocorre a atualização na hora daquele produto específico.</p>
 <h3 id="Configuracao-Servico-Automatico"><a href="#Configuracao-Servico-Automatico" class="headerlink" title="Configuração - Serviço Automático"></a>Configuração - Serviço Automático</h3><p>1 - No serviço automático, execute o instalador no servidor do cliente:</p>
-<p><img src="http://you img base url/https://i.imgur.com/MIroVqj.png?e=1617231951&token=your qiniu access key:ApTgm3NYTCLmTDMAwPClHSi2DMw=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/MIroVqj.png?e=1617233968&token=your qiniu access key:Skp8fs13PvwTrStTw2vMbN_pwXY=" alt></p>
 <p>2 - Preencha os campos de acordo com os dados do cliente:</p>
-<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617231951&token=your qiniu access key:vMV94LH8GqE0pJkSuTGk3deNtxo=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617233968&token=your qiniu access key:daWKrSt6BHWrvCZlVmPmgyZtiGM=" alt></p>
 <p>3 - Marque a opção ‘Audittar’ informando que utilizará este serviço:</p>
-<p><img src="http://you img base url/https://i.imgur.com/al9bsAz.png?e=1617231951&token=your qiniu access key:VFSbDkWpU9nusW_M4mTXY2va0vE=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/al9bsAz.png?e=1617233968&token=your qiniu access key:VejUIxCzGOkchDLthWKMalkOig8=" alt></p>
 <p>4 - Finalize a instalação. Após isso vá no caminho da instalação:<br>    Geralmente: (C:\Program Files (x86)\Tetra Solucoes\ServicosTetra)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Abra o arquivo 'ConfigTetra'</span></span><br><span class="line"><span class="comment"># Nele tem vários campos, mas precisaremos colocar os dados em 3 campos:</span></span><br><span class="line"></span><br><span class="line"><span class="string">"IdClientAudittar"</span>: <span class="string">"371"</span>,</span><br><span class="line"><span class="string">"TokenAudittar"</span>: <span class="string">"8d549efd328d8acaf01ff923246ce612"</span>,</span><br><span class="line"><span class="string">"HoraInicioServicoAudittar"</span>: 10,</span><br><span class="line"></span><br><span class="line"><span class="comment"># O id e token será passado pela Audittar, o campo HoraInicioServicoAudittar</span></span><br><span class="line"><span class="comment"># é o horário que o serviço irá iniciar automaticamente.</span></span><br><span class="line"><span class="comment"># Se estiver configurado para 20 horas, ele vai executar entre 20 e 21 horas.</span></span><br><span class="line"><span class="comment"># obs.(Por padrão ele vem com 22).</span></span><br></pre></td></tr></table></figure>
 
 <p>O serviço todo dia irá pegar todos os produtos da base de dados local do cliente e enviando para a Audittar. Se caso já tiver sido revisado o produto ele retorna a tributação e atualiza a base, se não no próximo dia ele busca de novo até ser revisado.</p>
 <p>Após a revisão do produto, na tabela ESTOQUE do banco o serviço marca o campo FLAGTRIBUT com a letra ‘R’, se não revisar o campo fica vazio.</p>
 <h3 id="Configuracao-Manual"><a href="#Configuracao-Manual" class="headerlink" title="Configuração - Manual"></a>Configuração - Manual</h3><p>Para configurar manualmente, abra o sistema em configurações, aba Outros/Pág. 2, selecione Integração Fiscal a opção 4 e preencha os campos cód. Cliente, token e URL:</p>
-<p><img src="http://you img base url/https://i.imgur.com/husrgFy.png?e=1617231951&token=your qiniu access key:I7tpVSty5T-gZ8kBrpm13zUISMw=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/husrgFy.png?e=1617233968&token=your qiniu access key:RoXQ0VcO817FTNopFei5XciAnzw=" alt></p>
 <p>url: <a href="http://api.audittar.com.br/webservice/ConsultaJSON" target="_blank" rel="noopener">http://api.audittar.com.br/webservice/ConsultaJSON</a></p>
 <p>Após Salvar e reiniciar o sistema é só ir no cadastro do produto, selecionar algum produto e clicar no ícone de busca de atualização do serviço:</p>
-<p><img src="http://you img base url/https://i.imgur.com/wbEk2cU.png?e=1617231951&token=your qiniu access key:gSEzcE6bEnpJrMX8AnVKAHJV6nU=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/wbEk2cU.png?e=1617233968&token=your qiniu access key:d30LbApx_W8W72T9YST4WGhnWzA=" alt></p>
 <p>obs.(Se caso não atualizar a tributação é porque foi enviado e a Audittar ainda não revisou esse produto.)</p>
 <h2 id="Licenca"><a href="#Licenca" class="headerlink" title="Licença"></a>Licença</h2><p>Esse projeto é licenciado pela Tetra Soluções Empresariais.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2021/02/24/Audittar/" data-id="ckmy005vu0002lai0bxeraid0" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2021/02/24/Audittar/" data-id="ckmy17erw0004g8i0z546zvlr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -385,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2021/02/19/Scantech/" data-id="ckmy005w2000blai0bbmnnlm9" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2021/02/19/Scantech/" data-id="ckmy17es1000eg8i036jq76d7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -445,7 +570,7 @@ A rotina é composta por 4 etapas
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/11/03/Clubiz/" data-id="ckmy005vx0004lai052od3wop" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/11/03/Clubiz/" data-id="ckmy17erx0005g8i0gdao9iqj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -541,7 +666,7 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/11/03/instabuy/" data-id="ckmy005w7000hlai09xk8f8nt" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/11/03/instabuy/" data-id="ckmy17es5000kg8i0x9difivf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -593,31 +718,31 @@ Dados opcionais
 <ol>
 <li>Ao executar o executável irá iniciar o processo de instalação:</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1617231951&token=your qiniu access key:IbJAvM6hDqnqRvdYyBVA5DjAxsY=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1617233968&token=your qiniu access key:uJ0YPhUS9JdCrmuVSqHhUL1WhMI=" alt></p>
 <ol start="2">
 <li>Marcar TODOS e clicar em avançar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1617231951&token=your qiniu access key:_97AWCNVNmxKv0QOBqU7qOubTtQ=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1617233968&token=your qiniu access key:sEKv2VAmrFzuj1M9SjfdgIQ9hxg=" alt></p>
 <ol start="3">
 <li>Informar dados solicitados: CNPJ do Cliente, Nome Fantasia, Nome da Base de dados e Nome da Máquina onde está instalado o SQL com essa Base;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617231951&token=your qiniu access key:vMV94LH8GqE0pJkSuTGk3deNtxo=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617233968&token=your qiniu access key:daWKrSt6BHWrvCZlVmPmgyZtiGM=" alt></p>
 <ol start="5">
 <li>Marcar o serviço Alerta Fiscal;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/IKB4lc6.png?e=1617231951&token=your qiniu access key:Gaz7zB03SAiTizxiIr1mK2AJfV8=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/IKB4lc6.png?e=1617233968&token=your qiniu access key:4YPxb8bD8C8Vwzx3WZbwkJA1wtg=" alt></p>
 <ol start="6">
 <li>Clicar em Avançar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1617231951&token=your qiniu access key:kYBI68hWYytRuv9neDmjh1nkKqo=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1617233968&token=your qiniu access key:02olwUb9czEZg-gbD-JShQ4TIPU=" alt></p>
 <ol start="7">
 <li>Caso acuse o erro da imagem a baixo, Instale o Netframework 4.7.2. Caso não dê erro, Seguir com o processo.</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1617231951&token=your qiniu access key:UpW0Rh5WTnmRpoL1vxzZw7uFgwM=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1617233968&token=your qiniu access key:A2cLVXhTdvl-a9Csu4Eg9D-eaho=" alt></p>
 <ol start="8">
 <li>Clicar em Fechar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1617231951&token=your qiniu access key:tbNvOlsgGw_rvFWYmpSO44Qpzt8=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1617233968&token=your qiniu access key:vZUIUnIxM988oqZLefJw-h9V3u4=" alt></p>
 <ol start="9">
 <li>Após isso vá no caminho da instalação:<br>Geralmente: (C:\Program Files (x86)\Tetra Solucoes\ServicosTetra)</li>
 </ol>
@@ -629,11 +754,11 @@ Dados opcionais
 </ul>
 </li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1617231951&token=your qiniu access key:jSi_BeK4CeT6nV4YuJ9JsyVBcBQ=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1617233968&token=your qiniu access key:lMy8vsY_TCZ9OGKadiy_6IergQY=" alt></p>
 <ol start="11">
 <li>Se quiser conferir o log do serviço para verificar se ocorreu algum problema pode ver o relatório no sistema em Cadastros/Estoque/Serviços/Relatório de Log de Serviços;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1617231951&token=your qiniu access key:ceLDyc4Hi5FzPK-IC4u8vnyvYlw=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1617233968&token=your qiniu access key:RxpxEpZsifY5rOosrhbuLONMrfw=" alt></p>
 <ul>
 <li><p>Só pesquisar o perídodo e o serviço a buscar que irá aparecer o log do serviço. (Esses dados são gravados na tabela SYS_LOGSERVICE)</p>
 </li>
@@ -643,7 +768,7 @@ Dados opcionais
 <h3 id="Configuracao-Consulta-Manual"><a href="#Configuracao-Consulta-Manual" class="headerlink" title="Configuração - Consulta Manual"></a>Configuração - Consulta Manual</h3><ol>
 <li>Abrir o SG, ir em Utilitários - Configuração - Sistema - Outros, verificar se a opção de integração Fiscal - ComoTributar está marcada e preencher os campos Cód. Cliente, token e url do serviço:</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/zNRVl0o.png?e=1617231951&token=your qiniu access key:C8xY-dbv6dB5Un7rjHqw0p6smls=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/zNRVl0o.png?e=1617233968&token=your qiniu access key:6Elx2ruVnL3l_CYmijtzOzy3fcY=" alt></p>
 <p>URL: <a href="http://soap.alertafiscalintranet.com.br/WSIntegracaoSoap.asmx" target="_blank" rel="noopener">http://soap.alertafiscalintranet.com.br/WSIntegracaoSoap.asmx</a></p>
 <p>Preencher Id e Token que está na “FAQ#: 410033 — Serviço Tetra - Acesso dos Clientes”.</p>
 <p><em>OBS.: Caso o cliente não estiver com os dados na FAQ solicitar ao mesmo tais informações que ele deverá adquirir com a AlertaFiscal e Atualizar a FAQ com os dados desse cliente de acordo com o padrão ja existente;</em></p>
@@ -665,7 +790,7 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/08/08/AlertaFiscal/" data-id="ckmy005vr0001lai0t0h3jpd1" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/08/08/AlertaFiscal/" data-id="ckmy17ert0002g8i0s6nmfi4w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AlertaFiscal/">AlertaFiscal</a></li></ul>
@@ -716,31 +841,31 @@ Dados opcionais
 <ol>
 <li>Ao executar o executável irá iniciar o processo de instalação:</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1617231951&token=your qiniu access key:IbJAvM6hDqnqRvdYyBVA5DjAxsY=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1617233968&token=your qiniu access key:uJ0YPhUS9JdCrmuVSqHhUL1WhMI=" alt></p>
 <ol start="2">
 <li>Marcar TODOS e clicar em avançar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1617231951&token=your qiniu access key:_97AWCNVNmxKv0QOBqU7qOubTtQ=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1617233968&token=your qiniu access key:sEKv2VAmrFzuj1M9SjfdgIQ9hxg=" alt></p>
 <ol start="3">
 <li>Informar dados solicitados: CNPJ do Cliente, Nome Fantasia, Nome da Base de dados e Nome da Máquina onde está instalado o SQL com essa Base;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617231951&token=your qiniu access key:vMV94LH8GqE0pJkSuTGk3deNtxo=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617233968&token=your qiniu access key:daWKrSt6BHWrvCZlVmPmgyZtiGM=" alt></p>
 <ol start="5">
 <li>Marcar o serviço;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/dqUSzWb.png?e=1617231951&token=your qiniu access key:qOL0jDN-yJGcibS4fVdKtp82Ewg=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/dqUSzWb.png?e=1617233968&token=your qiniu access key:j0FblM_T2xCVKeGRJLJbI0q1jlo=" alt></p>
 <ol start="6">
 <li>Clicar em Avançar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1617231951&token=your qiniu access key:kYBI68hWYytRuv9neDmjh1nkKqo=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1617233968&token=your qiniu access key:02olwUb9czEZg-gbD-JShQ4TIPU=" alt></p>
 <ol start="7">
 <li>Caso acuse o erro da imagem a baixo, Instale o Netframework 4.7.2. Caso não dê erro, Seguir com o processo.</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1617231951&token=your qiniu access key:UpW0Rh5WTnmRpoL1vxzZw7uFgwM=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1617233968&token=your qiniu access key:A2cLVXhTdvl-a9Csu4Eg9D-eaho=" alt></p>
 <ol start="8">
 <li>Clicar em Fechar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1617231951&token=your qiniu access key:tbNvOlsgGw_rvFWYmpSO44Qpzt8=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1617233968&token=your qiniu access key:vZUIUnIxM988oqZLefJw-h9V3u4=" alt></p>
 <ol start="9">
 <li>Após isso vá no caminho da instalação:<br>Geralmente: (C:\Program Files (x86)\Tetra Solucoes\ServicosTetra)</li>
 </ol>
@@ -752,11 +877,11 @@ Dados opcionais
 </ul>
 </li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1617231951&token=your qiniu access key:jSi_BeK4CeT6nV4YuJ9JsyVBcBQ=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1617233968&token=your qiniu access key:lMy8vsY_TCZ9OGKadiy_6IergQY=" alt></p>
 <ol start="11">
 <li>Se quiser conferir o log do serviço para verificar se ocorreu algum problema pode ver o relatório no sistema em Cadastros/Estoque/Serviços/Relatório de Log de Serviços;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1617231951&token=your qiniu access key:ceLDyc4Hi5FzPK-IC4u8vnyvYlw=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1617233968&token=your qiniu access key:RxpxEpZsifY5rOosrhbuLONMrfw=" alt></p>
 <ul>
 <li><p>Só pesquisar o perídodo e o serviço a buscar que irá aparecer o log do serviço. (Esses dados são gravados na tabela SYS_LOGSERVICE)</p>
 </li>
@@ -766,7 +891,7 @@ Dados opcionais
 <h3 id="Configuracao-Consulta-Manual"><a href="#Configuracao-Consulta-Manual" class="headerlink" title="Configuração - Consulta Manual"></a>Configuração - Consulta Manual</h3><ol>
 <li>Abrir o SG, ir em Utilitários - Configuração - Sistema - Outros, verificar se a opção de integração 3 - ComoTributar está marcada e preencher os campos usuário, senha e url do serviço:</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/RHdJ6g9.png?e=1617231951&token=your qiniu access key:x4kL5UmCVh9WEC_oQ5G4Pd_-uuM=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/RHdJ6g9.png?e=1617233968&token=your qiniu access key:JNgRAaRHTx-q7b0rlxRyNgBtSXI=" alt></p>
 <p>URL: <a href="https://comotributar.redwind.com.br/api/consulta/tributacao/" target="_blank" rel="noopener">https://comotributar.redwind.com.br/api/consulta/tributacao/</a></p>
 <p>Preencher Login e Senha que está na “FAQ#: 410027 — Login e Senha dos Clientes Como Tributar”.</p>
 <p><em>OBS.: Caso o cliente não estiver com os dados na FAQ solicitar ao mesmo tais informações que ele deverá adquirir com a Como Tributar e Atualizar a FAQ com os dados desse cliente de acordo com o padrão ja existente;</em></p>
@@ -794,11 +919,11 @@ Dados opcionais
 </ul>
 </li>
 </ul>
-<p><img src="http://you img base url/https://i.imgur.com/bC5pSXl.png?e=1617231951&token=your qiniu access key:cLXbBWLLKOjTuW50JxTJ014qZZY=" alt="11"></p>
+<p><img src="http://you img base url/https://i.imgur.com/bC5pSXl.png?e=1617233968&token=your qiniu access key:qzJJrdJvcrd7qywEGZPPbKlCLP8=" alt="11"></p>
 <h2 id="Ultimas-Funcionalidades-Adicionadas"><a href="#Ultimas-Funcionalidades-Adicionadas" class="headerlink" title="Últimas Funcionalidades Adicionadas"></a>Últimas Funcionalidades Adicionadas</h2><ul>
 <li>Caso o cliente não queira atualizar algum produto, tem a função de ignorar atualização de produtos. Só ir no cadastro do produto e marcar essa opção na página Adicionais:</li>
 </ul>
-<p><img src="http://you img base url/https://i.imgur.com/qqquP8n.png?e=1617231951&token=your qiniu access key:FTGa9NY13C6lHA1DUtrdYm7ZpR0=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/qqquP8n.png?e=1617233968&token=your qiniu access key:oWlqZUALAzw4Zt6qYUUva0EKV3M=" alt></p>
 <ul>
 <li><p>Adicionado no log as alterações feitas no serviço (incluído na tabela logcad somente o que foi alterado do produto no serviço).</p>
 </li>
@@ -810,7 +935,7 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/08/08/Como-tributar/" data-id="ckmy005w00009lai06iy96f1a" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/08/08/Como-tributar/" data-id="ckmy17erz000ag8i0fs0zm8e5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tetra-ComoTributar-ServicoTetra/">Tetra;ComoTributar;ServicoTetra</a></li></ul>
@@ -895,7 +1020,7 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/04/30/Comanda/" data-id="ckmy005vy0005lai0f8ubto81" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/04/30/Comanda/" data-id="ckmy17erx0006g8i06oz6c0e1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Comanda/">Comanda</a></li></ul>
@@ -953,104 +1078,9 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/02/03/conciliador-cartao/" data-id="ckmy005w5000flai0kg55g1me" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/02/03/conciliador-cartao/" data-id="ckmy17es4000ig8i0up85n23p" class="article-share-link">Share</a>
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Como-criar-graficos-e-alertas-no-Tetra-Sonar" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/28/Como-criar-graficos-e-alertas-no-Tetra-Sonar/" class="article-date">
-  <time datetime="2019-08-28T13:35:37.000Z" itemprop="datePublished">2019-08-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/28/Como-criar-graficos-e-alertas-no-Tetra-Sonar/">Como criar gráficos e alertas no Tetra Sonar</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Tetra-Sonar-Formato-de-consultas-e-tipos-de-graficos"><a href="#Tetra-Sonar-Formato-de-consultas-e-tipos-de-graficos" class="headerlink" title="Tetra Sonar - Formato de consultas e tipos de gráficos"></a>Tetra Sonar - Formato de consultas e tipos de gráficos</h1><p>Para abastecer os dados através de uma consulta SQL no <strong>Tetra Sonar</strong> o suporte deverá tomar alguns cuidados ao fazer a consulta e definir qual o gráfico sera mostrado.</p>
-<p>Basicamente existem 2 tipos de formato de consulta para abastecer os gráficos.</p>
-<h2 id="Formato-com-2-parametros"><a href="#Formato-com-2-parametros" class="headerlink" title="Formato com 2 parametros"></a>Formato com 2 parametros</h2><h3 id="Para-os-graficos"><a href="#Para-os-graficos" class="headerlink" title="Para os gráficos:"></a>Para os gráficos:</h3><ul>
-<li>pizza</li>
-<li>rosca</li>
-<li>polar</li>
-<li>radar</li>
-<li>lista</li>
-</ul>
-<p>Todas a consultas devem gerar um resultado com duas colunas nomeadas como:</p>
-<ol>
-<li><strong>label</strong> - aonde estará os rótulos dos dados.</li>
-<li><strong>value</strong> - onde está os valores de cada rótulo.</li>
-</ol>
-<h3 id="Exemplo"><a href="#Exemplo" class="headerlink" title="Exemplo:"></a>Exemplo:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP (<span class="number">4</span>) <span class="keyword">MAX</span>(sub.NOME) <span class="keyword">AS</span> label,</span><br><span class="line"><span class="keyword">SUM</span>(rz.QUANT * rz.UNITARIO * - <span class="number">1</span>) <span class="keyword">AS</span> <span class="keyword">value</span></span><br><span class="line"><span class="keyword">FROM</span> dbo.RAZALOJA <span class="keyword">AS</span> rz <span class="keyword">INNER</span> <span class="keyword">JOIN</span></span><br><span class="line">dbo.ESTOQUE <span class="keyword">AS</span> e <span class="keyword">ON</span> rz.CODIGO = e.CODIGO <span class="keyword">AND</span> rz.MOVTO = <span class="string">'VE'</span></span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> dbo.SUBGRUPO <span class="keyword">AS</span> sub <span class="keyword">ON</span> e.SUBGRUPO = sub.CODIGO</span><br><span class="line"><span class="keyword">WHERE</span> (rz.DATA <span class="keyword">BETWEEN</span> @InicioSemana <span class="keyword">AND</span> @FinalSemana)</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> sub.CODIGO</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">SUM</span>(rz.QUANT * rz.UNITARIO * - <span class="number">1</span>) <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Graficos"><a href="#Graficos" class="headerlink" title="Gráficos"></a>Gráficos</h2><p><strong>Lista</strong></p>
-<p>Esse formato é no formato de tabela normal. Uma tabela com duas colunas. Onde o o <em>label</em> é o rótulo da linha e o <em>value</em> é o valor capturado.</p>
-<p><img src="http://you img base url/https://i.imgur.com/2R2bxMf.png?e=1617231951&token=your qiniu access key:oIjo019aWW7wWifqVRhk3PBl5E4=" alt></p>
-<p><strong>Rosca</strong><br><img src="http://you img base url/https://i.imgur.com/ENeCM2M.png?e=1617231951&token=your qiniu access key:BcgUYhCIOhK9uZTAGJTwareGSzo=" alt></p>
-<hr>
-<p><strong>Pizza</strong><br><img src="http://you img base url/https://i.imgur.com/nquRKBS.png?e=1617231951&token=your qiniu access key:nZ6pDP-AhWkyIX0NcQy1sBRvlgU=" alt></p>
-<hr>
-<p><strong>Polar</strong><br><img src="http://you img base url/https://i.imgur.com/22LPv5k.png?e=1617231951&token=your qiniu access key:tytEeYfhGGGHKhXoIrrEplyNiOI=" alt></p>
-<hr>
-<p><strong>Radar</strong><br><img src="http://you img base url/https://i.imgur.com/8q1LMJX.png?e=1617231951&token=your qiniu access key:juFs0v1uBOF9q3OqNBFDfVuYIJI=" alt></p>
-<hr>
-<h2 id="Formato-com-3-parametros"><a href="#Formato-com-3-parametros" class="headerlink" title="Formato com 3 parametros"></a>Formato com 3 parametros</h2><h3 id="Para-os-graficos-1"><a href="#Para-os-graficos-1" class="headerlink" title="Para os gráficos:"></a>Para os gráficos:</h3><ul>
-<li>barra</li>
-<li>linha</li>
-<li>barra horizontal</li>
-<li>barra linha</li>
-</ul>
-<p>Todas a consultas devem gerar um resultado com duas colunas nomeadas como:</p>
-<ol>
-<li><strong>label</strong> - aonde estará os rótulos dos dados. <em>Ex: [Jan, Fev, Mar]</em></li>
-<li><strong>bar</strong> - sessao do dado apresentado. Ex: <em>[Compra, Venda, Devolucoes]</em></li>
-<li><strong>value</strong> - onde está os valores de cada rótulo.</li>
-</ol>
-<h3 id="Exemplo-1"><a href="#Exemplo-1" class="headerlink" title="Exemplo:"></a>Exemplo:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(POSICAO) + <span class="string">'-Pagar'</span> <span class="keyword">AS</span> label, <span class="string">'Projeção'</span> <span class="keyword">AS</span> bar, <span class="keyword">SUM</span>(VALOR) <span class="keyword">AS</span> <span class="keyword">value</span></span><br><span class="line"><span class="keyword">FROM</span> dbo.PAGAR</span><br><span class="line"><span class="keyword">WHERE</span> codfil = @codfil <span class="keyword">and</span>  (POSICAO = <span class="string">'AB'</span>)</span><br><span class="line"><span class="keyword">AND</span></span><br><span class="line">(VENCTO <span class="keyword">BETWEEN</span> <span class="keyword">DATEADD</span>(<span class="keyword">MONTH</span>, <span class="number">1</span>, <span class="keyword">DATEADD</span>(<span class="keyword">month</span>, <span class="keyword">DATEDIFF</span>(<span class="keyword">month</span>, <span class="number">0</span>, <span class="keyword">GETDATE</span>()), <span class="number">0</span>))</span><br><span class="line"><span class="keyword">AND</span></span><br><span class="line"><span class="keyword">DATEADD</span>(s, - <span class="number">1</span>, <span class="keyword">DATEADD</span>(mm, <span class="keyword">DATEDIFF</span>(m, <span class="number">0</span>, <span class="keyword">GETDATE</span>()) + <span class="number">2</span>, <span class="number">0</span>)))</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> POSICAO</span><br></pre></td></tr></table></figure>
-
-<h2 id="Graficos-1"><a href="#Graficos-1" class="headerlink" title="Gráficos"></a>Gráficos</h2><p><strong>Barra</strong><br><img src="http://you img base url/https://i.imgur.com/RO7T4Ox.png?e=1617231951&token=your qiniu access key:6NnUEuasRzd6hZ7blo51LJrb3f0=" alt></p>
-<hr>
-<p><strong>Linha</strong><br><img src="http://you img base url/https://i.imgur.com/O5KcbJG.png?e=1617231951&token=your qiniu access key:812whIfFM3XD6FsPHQWNXaQ8sAk=" alt></p>
-<hr>
-<p><strong>Barra Horizontal</strong><br><img src="http://you img base url/https://i.imgur.com/UwNcgBn.png?e=1617231951&token=your qiniu access key:rii7Fc7mkVK1ks2HKopYDL5tId8=" alt></p>
-<hr>
-<p><strong>Barra Linha</strong><br><img src="http://you img base url/https://i.imgur.com/Ed0BeEo.png?e=1617231951&token=your qiniu access key:bi71zTzgcfxvtCH0YqYq728Sjp8=" alt></p>
-<hr>
-<h2 id="Formato-para-criar-ALARMES"><a href="#Formato-para-criar-ALARMES" class="headerlink" title="Formato para criar ALARMES"></a>Formato para criar ALARMES</h2><p>No caso de alarmes o SQL é um pouco diferente e deve se preocupar com alguns detalhes:</p>
-<ol>
-<li>Nao existem rótulos na consulta, ou seja, pode ser gerado quantas colunas forem necessárias. Deve se preocupar em colocar somente colunas que sejam relevantes pois será mostrado em dispositivos móveis aonde o tamanho de tela é reduzido;<br><strong>Portanto evitem usar no SQL o * para definir as colunas a serem consultadas na consulta</strong></li>
-<li>O tempo definido para executar o alarme deve sem bem pensado. O intervalo deve SEMPRE contemplar um período suficiente para o usuário receber o alerta e tratar o problema antes do próximo monitoramento. Por exemplo: Um alarme de produtos com preco de venda com custo zero. Ao coletar os dados nao conformes ele somente deve ser executado dias após, para dar tempo de delegar a tarefa e ela ser corrigida. Se isso nao acontecer o alarme continuará executando gerando informacoes recorrentes denecessáriamente.</li>
-</ol>
-<h5 id="Exemplo-2"><a href="#Exemplo-2" class="headerlink" title="Exemplo:"></a>Exemplo:</h5><p><strong>Alarme</strong> - Monitar todos os produtos que tenham preco de venda e custo 0 no cadastro de produtos.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> codigo, nome, custo, venda, SITUACAO, cadastro</span><br><span class="line"><span class="keyword">from</span> estoque</span><br><span class="line"><span class="keyword">where</span> custo = <span class="number">0</span> <span class="keyword">and</span> situacao = <span class="string">'A'</span> <span class="keyword">and</span> venda &gt; <span class="number">0.05</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2019/08/28/Como-criar-graficos-e-alertas-no-Tetra-Sonar/" data-id="ckmy005vz0006lai0u6qqhtd1" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TetraSonar/">TetraSonar</a></li></ul>
-
     </footer>
   </div>
   
@@ -1076,7 +1106,7 @@ Dados opcionais
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AlertaFiscal/">AlertaFiscal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comanda/">Comanda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tetra-ComoTributar-ServicoTetra/">Tetra;ComoTributar;ServicoTetra</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TetraSonar/">TetraSonar</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AlertaFiscal/">AlertaFiscal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comanda/">Comanda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tetra-ComoTributar-ServicoTetra/">Tetra;ComoTributar;ServicoTetra</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TetraSonar/">TetraSonar</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fiscal/">fiscal</a></li></ul>
     </div>
   </div>
 
@@ -1086,7 +1116,7 @@ Dados opcionais
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AlertaFiscal/" style="font-size: 10px;">AlertaFiscal</a> <a href="/tags/Comanda/" style="font-size: 10px;">Comanda</a> <a href="/tags/Tetra-ComoTributar-ServicoTetra/" style="font-size: 10px;">Tetra;ComoTributar;ServicoTetra</a> <a href="/tags/TetraSonar/" style="font-size: 10px;">TetraSonar</a>
+      <a href="/tags/AlertaFiscal/" style="font-size: 10px;">AlertaFiscal</a> <a href="/tags/Comanda/" style="font-size: 10px;">Comanda</a> <a href="/tags/Tetra-ComoTributar-ServicoTetra/" style="font-size: 10px;">Tetra;ComoTributar;ServicoTetra</a> <a href="/tags/TetraSonar/" style="font-size: 10px;">TetraSonar</a> <a href="/tags/fiscal/" style="font-size: 10px;">fiscal</a>
     </div>
   </div>
 
@@ -1108,6 +1138,10 @@ Dados opcionais
       <ul>
         
           <li>
+            <a href="/2021/03/31/Acerto/">Acerto</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/31/GestaoSoftware/">Gestao de Software - Tetra</a>
           </li>
         
@@ -1121,10 +1155,6 @@ Dados opcionais
         
           <li>
             <a href="/2020/11/03/Clubiz/">CLUBIZ</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/03/instabuy/">INSTABUY</a>
           </li>
         
       </ul>
