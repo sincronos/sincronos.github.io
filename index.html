@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/31/Acerto/">Acerto</a>
+      <a class="article-title" href="/2021/03/31/Acerto/">Acerto Fiscal - Integração</a>
     </h1>
   
 
@@ -175,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2021/03/31/Acerto/" data-id="ckmy17erq0001g8i0l1t7fkfr" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2021/03/31/Acerto/" data-id="ckmy19y7m00010xi06t9ixtzj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/fiscal/">fiscal</a></li></ul>
@@ -395,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2021/03/31/GestaoSoftware/" data-id="ckmy17es0000cg8i05vxhqvqx" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2021/03/31/GestaoSoftware/" data-id="ckmy19y7y000c0xi0yt1h86go" class="article-share-link">Share</a>
       
       
     </footer>
@@ -428,28 +428,28 @@
 <p>A integração faz com que clientes que utilizam o sistema da Tetra possam usar esses serviços da Audittar de forma mais fácil, sendo totalmente integrado ao sistema.</p>
 <p>Existe a forma automática, que todo dia o integrador consulta os produtos e obtem as atualizações que a Audittar faz de acordo com o tempo. Porém existe a forma manual que o cliente pode fazer dentro do sistema no cadastro do produto e verificar na hora se o produto tem atualização de tributação e ocorre a atualização na hora daquele produto específico.</p>
 <h3 id="Configuracao-Servico-Automatico"><a href="#Configuracao-Servico-Automatico" class="headerlink" title="Configuração - Serviço Automático"></a>Configuração - Serviço Automático</h3><p>1 - No serviço automático, execute o instalador no servidor do cliente:</p>
-<p><img src="http://you img base url/https://i.imgur.com/MIroVqj.png?e=1617233968&token=your qiniu access key:Skp8fs13PvwTrStTw2vMbN_pwXY=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/MIroVqj.png?e=1617234087&token=your qiniu access key:ep5DRBCalGdFFSbxwNbFo_wBCj4=" alt></p>
 <p>2 - Preencha os campos de acordo com os dados do cliente:</p>
-<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617233968&token=your qiniu access key:daWKrSt6BHWrvCZlVmPmgyZtiGM=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617234087&token=your qiniu access key:w39Yt-10t-wGXqju6q6mR-KmLus=" alt></p>
 <p>3 - Marque a opção ‘Audittar’ informando que utilizará este serviço:</p>
-<p><img src="http://you img base url/https://i.imgur.com/al9bsAz.png?e=1617233968&token=your qiniu access key:VejUIxCzGOkchDLthWKMalkOig8=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/al9bsAz.png?e=1617234087&token=your qiniu access key:n2ZRtauhnaBjML0UM11g7wrSrAQ=" alt></p>
 <p>4 - Finalize a instalação. Após isso vá no caminho da instalação:<br>    Geralmente: (C:\Program Files (x86)\Tetra Solucoes\ServicosTetra)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Abra o arquivo 'ConfigTetra'</span></span><br><span class="line"><span class="comment"># Nele tem vários campos, mas precisaremos colocar os dados em 3 campos:</span></span><br><span class="line"></span><br><span class="line"><span class="string">"IdClientAudittar"</span>: <span class="string">"371"</span>,</span><br><span class="line"><span class="string">"TokenAudittar"</span>: <span class="string">"8d549efd328d8acaf01ff923246ce612"</span>,</span><br><span class="line"><span class="string">"HoraInicioServicoAudittar"</span>: 10,</span><br><span class="line"></span><br><span class="line"><span class="comment"># O id e token será passado pela Audittar, o campo HoraInicioServicoAudittar</span></span><br><span class="line"><span class="comment"># é o horário que o serviço irá iniciar automaticamente.</span></span><br><span class="line"><span class="comment"># Se estiver configurado para 20 horas, ele vai executar entre 20 e 21 horas.</span></span><br><span class="line"><span class="comment"># obs.(Por padrão ele vem com 22).</span></span><br></pre></td></tr></table></figure>
 
 <p>O serviço todo dia irá pegar todos os produtos da base de dados local do cliente e enviando para a Audittar. Se caso já tiver sido revisado o produto ele retorna a tributação e atualiza a base, se não no próximo dia ele busca de novo até ser revisado.</p>
 <p>Após a revisão do produto, na tabela ESTOQUE do banco o serviço marca o campo FLAGTRIBUT com a letra ‘R’, se não revisar o campo fica vazio.</p>
 <h3 id="Configuracao-Manual"><a href="#Configuracao-Manual" class="headerlink" title="Configuração - Manual"></a>Configuração - Manual</h3><p>Para configurar manualmente, abra o sistema em configurações, aba Outros/Pág. 2, selecione Integração Fiscal a opção 4 e preencha os campos cód. Cliente, token e URL:</p>
-<p><img src="http://you img base url/https://i.imgur.com/husrgFy.png?e=1617233968&token=your qiniu access key:RoXQ0VcO817FTNopFei5XciAnzw=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/husrgFy.png?e=1617234087&token=your qiniu access key:hUXK28PNBCTtVnpZ63YO8k4Hq5c=" alt></p>
 <p>url: <a href="http://api.audittar.com.br/webservice/ConsultaJSON" target="_blank" rel="noopener">http://api.audittar.com.br/webservice/ConsultaJSON</a></p>
 <p>Após Salvar e reiniciar o sistema é só ir no cadastro do produto, selecionar algum produto e clicar no ícone de busca de atualização do serviço:</p>
-<p><img src="http://you img base url/https://i.imgur.com/wbEk2cU.png?e=1617233968&token=your qiniu access key:d30LbApx_W8W72T9YST4WGhnWzA=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/wbEk2cU.png?e=1617234087&token=your qiniu access key:H8fdVLJUYc3zte0EWmcBTjp4JgI=" alt></p>
 <p>obs.(Se caso não atualizar a tributação é porque foi enviado e a Audittar ainda não revisou esse produto.)</p>
 <h2 id="Licenca"><a href="#Licenca" class="headerlink" title="Licença"></a>Licença</h2><p>Esse projeto é licenciado pela Tetra Soluções Empresariais.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2021/02/24/Audittar/" data-id="ckmy17erw0004g8i0z546zvlr" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2021/02/24/Audittar/" data-id="ckmy19y7s00040xi0b8khbuy0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -510,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2021/02/19/Scantech/" data-id="ckmy17es1000eg8i036jq76d7" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2021/02/19/Scantech/" data-id="ckmy19y7z000e0xi00o586g3k" class="article-share-link">Share</a>
       
       
     </footer>
@@ -570,7 +570,7 @@ A rotina é composta por 4 etapas
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/11/03/Clubiz/" data-id="ckmy17erx0005g8i0gdao9iqj" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/11/03/Clubiz/" data-id="ckmy19y7t00050xi0bvm03k36" class="article-share-link">Share</a>
       
       
     </footer>
@@ -666,7 +666,7 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/11/03/instabuy/" data-id="ckmy17es5000kg8i0x9difivf" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/11/03/instabuy/" data-id="ckmy19y84000k0xi0ojeidng9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -718,31 +718,31 @@ Dados opcionais
 <ol>
 <li>Ao executar o executável irá iniciar o processo de instalação:</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1617233968&token=your qiniu access key:uJ0YPhUS9JdCrmuVSqHhUL1WhMI=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1617234087&token=your qiniu access key:hWiJfCCBKX9Mx2Xl1RGknBwqtfE=" alt></p>
 <ol start="2">
 <li>Marcar TODOS e clicar em avançar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1617233968&token=your qiniu access key:sEKv2VAmrFzuj1M9SjfdgIQ9hxg=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1617234087&token=your qiniu access key:VaLQenBTXbXwjjKZv4rj5D9PYCI=" alt></p>
 <ol start="3">
 <li>Informar dados solicitados: CNPJ do Cliente, Nome Fantasia, Nome da Base de dados e Nome da Máquina onde está instalado o SQL com essa Base;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617233968&token=your qiniu access key:daWKrSt6BHWrvCZlVmPmgyZtiGM=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617234087&token=your qiniu access key:w39Yt-10t-wGXqju6q6mR-KmLus=" alt></p>
 <ol start="5">
 <li>Marcar o serviço Alerta Fiscal;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/IKB4lc6.png?e=1617233968&token=your qiniu access key:4YPxb8bD8C8Vwzx3WZbwkJA1wtg=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/IKB4lc6.png?e=1617234087&token=your qiniu access key:DlP6DCZKT_bLg_SUGk1dLh4pCXU=" alt></p>
 <ol start="6">
 <li>Clicar em Avançar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1617233968&token=your qiniu access key:02olwUb9czEZg-gbD-JShQ4TIPU=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1617234087&token=your qiniu access key:l_e99g3Ubqfzwz7HS0vEoqc1dK0=" alt></p>
 <ol start="7">
 <li>Caso acuse o erro da imagem a baixo, Instale o Netframework 4.7.2. Caso não dê erro, Seguir com o processo.</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1617233968&token=your qiniu access key:A2cLVXhTdvl-a9Csu4Eg9D-eaho=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1617234087&token=your qiniu access key:Zve8L-btM2HnbHMgmSG51f5gG1M=" alt></p>
 <ol start="8">
 <li>Clicar em Fechar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1617233968&token=your qiniu access key:vZUIUnIxM988oqZLefJw-h9V3u4=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1617234087&token=your qiniu access key:YLduFReSsu00ISc_mjJ8CVvgXyI=" alt></p>
 <ol start="9">
 <li>Após isso vá no caminho da instalação:<br>Geralmente: (C:\Program Files (x86)\Tetra Solucoes\ServicosTetra)</li>
 </ol>
@@ -754,11 +754,11 @@ Dados opcionais
 </ul>
 </li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1617233968&token=your qiniu access key:lMy8vsY_TCZ9OGKadiy_6IergQY=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1617234087&token=your qiniu access key:MwHWXyZc-v14NVUTlePP6tE21S0=" alt></p>
 <ol start="11">
 <li>Se quiser conferir o log do serviço para verificar se ocorreu algum problema pode ver o relatório no sistema em Cadastros/Estoque/Serviços/Relatório de Log de Serviços;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1617233968&token=your qiniu access key:RxpxEpZsifY5rOosrhbuLONMrfw=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1617234087&token=your qiniu access key:a_kKJ8l_Pqa4NiDpWJlimbOi37U=" alt></p>
 <ul>
 <li><p>Só pesquisar o perídodo e o serviço a buscar que irá aparecer o log do serviço. (Esses dados são gravados na tabela SYS_LOGSERVICE)</p>
 </li>
@@ -768,7 +768,7 @@ Dados opcionais
 <h3 id="Configuracao-Consulta-Manual"><a href="#Configuracao-Consulta-Manual" class="headerlink" title="Configuração - Consulta Manual"></a>Configuração - Consulta Manual</h3><ol>
 <li>Abrir o SG, ir em Utilitários - Configuração - Sistema - Outros, verificar se a opção de integração Fiscal - ComoTributar está marcada e preencher os campos Cód. Cliente, token e url do serviço:</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/zNRVl0o.png?e=1617233968&token=your qiniu access key:6Elx2ruVnL3l_CYmijtzOzy3fcY=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/zNRVl0o.png?e=1617234087&token=your qiniu access key:vAZaVB3NcgFIO_Q9QFiXX8CfKXI=" alt></p>
 <p>URL: <a href="http://soap.alertafiscalintranet.com.br/WSIntegracaoSoap.asmx" target="_blank" rel="noopener">http://soap.alertafiscalintranet.com.br/WSIntegracaoSoap.asmx</a></p>
 <p>Preencher Id e Token que está na “FAQ#: 410033 — Serviço Tetra - Acesso dos Clientes”.</p>
 <p><em>OBS.: Caso o cliente não estiver com os dados na FAQ solicitar ao mesmo tais informações que ele deverá adquirir com a AlertaFiscal e Atualizar a FAQ com os dados desse cliente de acordo com o padrão ja existente;</em></p>
@@ -790,7 +790,7 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/08/08/AlertaFiscal/" data-id="ckmy17ert0002g8i0s6nmfi4w" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/08/08/AlertaFiscal/" data-id="ckmy19y7p00020xi0d7l9nn07" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AlertaFiscal/">AlertaFiscal</a></li></ul>
@@ -841,31 +841,31 @@ Dados opcionais
 <ol>
 <li>Ao executar o executável irá iniciar o processo de instalação:</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1617233968&token=your qiniu access key:uJ0YPhUS9JdCrmuVSqHhUL1WhMI=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/9sstXp3.png?e=1617234087&token=your qiniu access key:hWiJfCCBKX9Mx2Xl1RGknBwqtfE=" alt></p>
 <ol start="2">
 <li>Marcar TODOS e clicar em avançar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1617233968&token=your qiniu access key:sEKv2VAmrFzuj1M9SjfdgIQ9hxg=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/UxtSRtf.jpg?e=1617234087&token=your qiniu access key:VaLQenBTXbXwjjKZv4rj5D9PYCI=" alt></p>
 <ol start="3">
 <li>Informar dados solicitados: CNPJ do Cliente, Nome Fantasia, Nome da Base de dados e Nome da Máquina onde está instalado o SQL com essa Base;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617233968&token=your qiniu access key:daWKrSt6BHWrvCZlVmPmgyZtiGM=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/cfOXdCM.png?e=1617234087&token=your qiniu access key:w39Yt-10t-wGXqju6q6mR-KmLus=" alt></p>
 <ol start="5">
 <li>Marcar o serviço;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/dqUSzWb.png?e=1617233968&token=your qiniu access key:j0FblM_T2xCVKeGRJLJbI0q1jlo=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/dqUSzWb.png?e=1617234087&token=your qiniu access key:DBbrx123G3KfEaZvO0Z-zTfVYmE=" alt></p>
 <ol start="6">
 <li>Clicar em Avançar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1617233968&token=your qiniu access key:02olwUb9czEZg-gbD-JShQ4TIPU=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/xgIM7GT.png?e=1617234087&token=your qiniu access key:l_e99g3Ubqfzwz7HS0vEoqc1dK0=" alt></p>
 <ol start="7">
 <li>Caso acuse o erro da imagem a baixo, Instale o Netframework 4.7.2. Caso não dê erro, Seguir com o processo.</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1617233968&token=your qiniu access key:A2cLVXhTdvl-a9Csu4Eg9D-eaho=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/D2bkrKd.png?e=1617234087&token=your qiniu access key:Zve8L-btM2HnbHMgmSG51f5gG1M=" alt></p>
 <ol start="8">
 <li>Clicar em Fechar;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1617233968&token=your qiniu access key:vZUIUnIxM988oqZLefJw-h9V3u4=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/jfwZsYL.png?e=1617234087&token=your qiniu access key:YLduFReSsu00ISc_mjJ8CVvgXyI=" alt></p>
 <ol start="9">
 <li>Após isso vá no caminho da instalação:<br>Geralmente: (C:\Program Files (x86)\Tetra Solucoes\ServicosTetra)</li>
 </ol>
@@ -877,11 +877,11 @@ Dados opcionais
 </ul>
 </li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1617233968&token=your qiniu access key:lMy8vsY_TCZ9OGKadiy_6IergQY=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/yel2TSq.png?e=1617234087&token=your qiniu access key:MwHWXyZc-v14NVUTlePP6tE21S0=" alt></p>
 <ol start="11">
 <li>Se quiser conferir o log do serviço para verificar se ocorreu algum problema pode ver o relatório no sistema em Cadastros/Estoque/Serviços/Relatório de Log de Serviços;</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1617233968&token=your qiniu access key:RxpxEpZsifY5rOosrhbuLONMrfw=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/7oKHisv.png?e=1617234087&token=your qiniu access key:a_kKJ8l_Pqa4NiDpWJlimbOi37U=" alt></p>
 <ul>
 <li><p>Só pesquisar o perídodo e o serviço a buscar que irá aparecer o log do serviço. (Esses dados são gravados na tabela SYS_LOGSERVICE)</p>
 </li>
@@ -891,7 +891,7 @@ Dados opcionais
 <h3 id="Configuracao-Consulta-Manual"><a href="#Configuracao-Consulta-Manual" class="headerlink" title="Configuração - Consulta Manual"></a>Configuração - Consulta Manual</h3><ol>
 <li>Abrir o SG, ir em Utilitários - Configuração - Sistema - Outros, verificar se a opção de integração 3 - ComoTributar está marcada e preencher os campos usuário, senha e url do serviço:</li>
 </ol>
-<p><img src="http://you img base url/https://i.imgur.com/RHdJ6g9.png?e=1617233968&token=your qiniu access key:JNgRAaRHTx-q7b0rlxRyNgBtSXI=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/RHdJ6g9.png?e=1617234087&token=your qiniu access key:PkbkywkZ5-h2Ret1K1Nq0viFiv8=" alt></p>
 <p>URL: <a href="https://comotributar.redwind.com.br/api/consulta/tributacao/" target="_blank" rel="noopener">https://comotributar.redwind.com.br/api/consulta/tributacao/</a></p>
 <p>Preencher Login e Senha que está na “FAQ#: 410027 — Login e Senha dos Clientes Como Tributar”.</p>
 <p><em>OBS.: Caso o cliente não estiver com os dados na FAQ solicitar ao mesmo tais informações que ele deverá adquirir com a Como Tributar e Atualizar a FAQ com os dados desse cliente de acordo com o padrão ja existente;</em></p>
@@ -919,11 +919,11 @@ Dados opcionais
 </ul>
 </li>
 </ul>
-<p><img src="http://you img base url/https://i.imgur.com/bC5pSXl.png?e=1617233968&token=your qiniu access key:qzJJrdJvcrd7qywEGZPPbKlCLP8=" alt="11"></p>
+<p><img src="http://you img base url/https://i.imgur.com/bC5pSXl.png?e=1617234087&token=your qiniu access key:iDffQmWGSGRZ8DEKIFE_l7pUUCw=" alt="11"></p>
 <h2 id="Ultimas-Funcionalidades-Adicionadas"><a href="#Ultimas-Funcionalidades-Adicionadas" class="headerlink" title="Últimas Funcionalidades Adicionadas"></a>Últimas Funcionalidades Adicionadas</h2><ul>
 <li>Caso o cliente não queira atualizar algum produto, tem a função de ignorar atualização de produtos. Só ir no cadastro do produto e marcar essa opção na página Adicionais:</li>
 </ul>
-<p><img src="http://you img base url/https://i.imgur.com/qqquP8n.png?e=1617233968&token=your qiniu access key:oWlqZUALAzw4Zt6qYUUva0EKV3M=" alt></p>
+<p><img src="http://you img base url/https://i.imgur.com/qqquP8n.png?e=1617234087&token=your qiniu access key:qORCysCQeciLAabVhto3SIBhBOI=" alt></p>
 <ul>
 <li><p>Adicionado no log as alterações feitas no serviço (incluído na tabela logcad somente o que foi alterado do produto no serviço).</p>
 </li>
@@ -935,7 +935,7 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/08/08/Como-tributar/" data-id="ckmy17erz000ag8i0fs0zm8e5" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/08/08/Como-tributar/" data-id="ckmy19y7w000a0xi01zmgmptj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tetra-ComoTributar-ServicoTetra/">Tetra;ComoTributar;ServicoTetra</a></li></ul>
@@ -1020,7 +1020,7 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/04/30/Comanda/" data-id="ckmy17erx0006g8i06oz6c0e1" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/04/30/Comanda/" data-id="ckmy19y7u00060xi0ah8jqewu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Comanda/">Comanda</a></li></ul>
@@ -1078,7 +1078,7 @@ Dados opcionais
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sincronos.github.io/2020/02/03/conciliador-cartao/" data-id="ckmy17es4000ig8i0up85n23p" class="article-share-link">Share</a>
+      <a data-url="http://sincronos.github.io/2020/02/03/conciliador-cartao/" data-id="ckmy19y83000i0xi0jrzlsvhg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1138,7 +1138,7 @@ Dados opcionais
       <ul>
         
           <li>
-            <a href="/2021/03/31/Acerto/">Acerto</a>
+            <a href="/2021/03/31/Acerto/">Acerto Fiscal - Integração</a>
           </li>
         
           <li>
